@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#070b12" />
+  <title>OmniEMU — Device Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="OmniEMU home">
+        <span class="brand-mark"><i></i><i></i></span>
+        <span>Omni<span>EMU</span></span>
+      </a>
+
+      <nav class="device-tabs" aria-label="Device families">
+        <button class="device-tab active" data-device="android"><span class="tab-icon">●</span> Android</button>
+        <button class="device-tab" data-device="iphone"><span class="tab-icon">◆</span> iPhone</button>
+        <button class="device-tab" data-device="nintendo"><span class="switch-mini">●│●</span> Nintendo</button>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-button" id="soundToggle" aria-label="Toggle sound" title="Sound"><span>◖))</span></button>
+        <button class="icon-button" id="settingsButton" aria-label="Settings" title="Settings"><span>⚙</span></button>
+        <div class="profile">JD</div>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <aside class="sidebar library-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Your collection</p>
+            <h2>Library</h2>
+          </div>
+          <button class="add-button" id="addGame" aria-label="Add game">+</button>
+          <input id="fileInput" type="file" accept=".apk,.ipa,.nes,.sfc,.smc,.n64,.gba,.gb,.zip" hidden />
+        </div>
+
+        <label class="search-box">
+          <span>⌕</span>
+          <input id="searchInput" type="search" placeholder="Search your games" />
+          <kbd>⌘ K</kbd>
+        </label>
+
+        <div class="filter-row">
+          <button class="filter active" data-filter="all">All</button>
+          <button class="filter" data-filter="recent">Recent</button>
+          <button class="filter" data-filter="favorites">Favorites</button>
+        </div>
+
+        <div class="game-list" id="gameList"></div>
+
+        <button class="import-card" id="importCard">
+          <span class="import-icon">⇧</span>
+          <span><strong>Import a game</strong><small>APK, IPA, NES, SNES & more</small></span>
+        </button>
+      </aside>
+
+      <section class="stage" id="stage">
+        <div class="stage-topline">
+          <div class="status-pill"><i></i><span id="deviceStatus">Pixel 8 Pro · Android 14</span></div>
+          <div class="stage-actions">
+            <button class="tool-button" id="screenshotButton" title="Capture screenshot">▣</button>
+            <button class="tool-button" id="rotateButton" title="Rotate device">↻</button>
+            <button class="tool-button" id="fullscreenButton" title="Fullscreen">⛶</button>
+          </div>
+        </div>
+
+        <div class="device-area">
+          <div class="ambient-glow"></div>
+          <div class="phone-frame android-frame" id="phoneFrame">
+            <div class="phone-speaker"></div>
+            <div class="phone-screen" id="phoneScreen">
+              <div class="phone-wallpaper android-wallpaper"></div>
+              <div class="phone-status"><span id="phoneTime">9:41</span><span>▰  ◔  ▮</span></div>
+              <div class="home-content" id="homeContent">
+                <div class="date-widget"><span>MON, AUG 17</span><strong>21°</strong><small>San Francisco · Sunny</small></div>
+                <div class="google-pill"><b>G</b><span>Search</span><i>✦</i></div>
+                <div class="app-grid">
+                  <button class="app-icon" data-app="Photos"><i class="photos">✣</i><span>Photos</span></button>
+                  <button class="app-icon" data-app="Play Store"><i class="play">▶</i><span>Play Store</span></button>
+                  <button class="app-icon" data-app="Chrome"><i class="chrome">●</i><span>Chrome</span></button>
+                  <button class="app-icon" data-app="Camera"><i class="camera">◉</i><span>Camera</span></button>
+                </div>
+              </div>
+              <div class="running-app hidden" id="runningApp">
+                <div class="running-hero" id="runningHero">◎</div>
+                <h3 id="runningTitle">Pocket Rally</h3>
+                <p id="runningSubtitle">Ready to play</p>
+                <button id="playDemo">Start game</button>
+              </div>
+              <div class="phone-dock">
+                <i class="dock-phone">●</i><i class="dock-message">●</i><i class="dock-browser">●</i><i class="dock-camera">●</i>
+              </div>
+              <div class="gesture-bar"></div>
+            </div>
+          </div>
+
+          <div class="switch-frame hidden" id="switchFrame">
+            <div class="joycon joycon-left">
+              <button class="minus">−</button>
+              <div class="joystick"><i></i></div>
+              <div class="dpad">
+                <button data-dir="up">▲</button><button data-dir="left">◀</button><button data-dir="right">▶</button><button data-dir="down">▼</button>
+              </div>
+              <button class="capture">□</button>
+            </div>
+            <div class="console-screen-wrap">
+              <div class="console-screen">
+                <div class="game-sky"><span class="cloud c1"></span><span class="cloud c2"></span></div>
+                <div class="game-hud"><span>OMNI × 03</span><span>★ 120</span></div>
+                <div class="game-title" id="consoleTitle"><small>WORLD 1–1</small><strong>PIXEL QUEST</strong><button id="consoleStart">PRESS START</button></div>
+                <div class="pixel-player" id="pixelPlayer"></div>
+                <div class="game-ground"></div>
+              </div>
+            </div>
+            <div class="joycon joycon-right">
+              <button class="plus">+</button>
+              <div class="abxy"><button>X</button><button>Y</button><button>A</button><button>B</button></div>
+              <div class="joystick right-stick"><i></i></div>
+              <button class="home-key">⌂</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="quick-controls">
+          <button id="backControl"><span>‹</span><small>Back</small></button>
+          <button id="homeControl"><span>○</span><small>Home</small></button>
+          <button id="overviewControl"><span>□</span><small>Overview</small></button>
+          <div class="control-divider"></div>
+          <button id="volumeDown"><span>−</span><small>Volume</small></button>
+          <button id="volumeUp"><span>＋</span><small>Volume</small></button>
+          <button id="powerControl"><span>⏻</span><small>Power</small></button>
+        </div>
+      </section>
+
+      <aside class="sidebar inspector-panel">
+        <div class="inspector-heading">
+          <div><p class="eyebrow">Active device</p><h2>Controls</h2></div>
+          <span class="live-badge">Live</span>
+        </div>
+
+        <section class="control-section">
+          <h3>Device profile <button>•••</button></h3>
+          <button class="device-profile" id="profileButton">
+            <span class="profile-device-icon">▯</span>
+            <span><strong id="profileName">Pixel 8 Pro</strong><small id="profileMeta">1344 × 2992 · Android 14</small></span>
+            <i>⌄</i>
+          </button>
+          <div class="profile-menu hidden" id="profileMenu">
+            <button data-profile="Pixel 8 Pro|1344 × 2992 · Android 14">Pixel 8 Pro</button>
+            <button data-profile="Galaxy S24|1440 × 3120 · Android 14">Galaxy S24</button>
+            <button data-profile="Pixel Fold|1840 × 2208 · Android 14">Pixel Fold</button>
+          </div>
+        </section>
+
+        <section class="control-section performance">
+          <h3>Performance <span id="fpsLabel">60 FPS</span></h3>
+          <input id="fpsSlider" type="range" min="30" max="120" step="30" value="60" />
+          <div class="range-labels"><span>30</span><span>60</span><span>90</span><span>120</span></div>
+          <div class="metric-grid">
+            <div><span>CPU</span><strong id="cpuMetric">18%</strong><i style="--value:18%"></i></div>
+            <div><span>RAM</span><strong>1.2 GB</strong><i style="--value:42%"></i></div>
+          </div>
+        </section>
+
+        <section class="control-section">
+          <h3>Session</h3>
+          <div class="session-row"><span><i class="session-icon">◴</i>Elapsed time</span><strong id="elapsed">00:00:00</strong></div>
+          <div class="session-row"><span><i class="session-icon">☁</i>Auto save</span><label class="toggle"><input type="checkbox" checked><i></i></label></div>
+          <div class="session-row"><span><i class="session-icon">⌁</i>Network</span><strong class="connected">Connected</strong></div>
+        </section>
+
+        <div class="launch-box">
+          <button class="launch-button" id="launchButton"><span>▶</span> Launch game</button>
+          <p><i></i> All systems operational</p>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"><span>✓</span><p>Screenshot captured</p></div>
+  <div class="settings-modal hidden" id="settingsModal">
+    <div class="modal-card">
+      <button class="modal-close" id="modalClose">×</button>
+      <p class="eyebrow">Preferences</p><h2>Emulator settings</h2>
+      <label><span>Theme</span><select><option>Midnight</option><option>System</option></select></label>
+      <label><span>Graphics API</span><select><option>WebGL 2</option><option>Software</option></select></label>
+      <label><span>Show performance stats</span><input type="checkbox" checked></label>
+      <button class="save-settings" id="saveSettings">Save changes</button>
+    </div>
+  </div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
