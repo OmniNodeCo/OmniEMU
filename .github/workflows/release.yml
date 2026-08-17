@@ -1,0 +1,239 @@
+name: Release OmniEMU Native Emulator
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag, for example v0.1.0
+        required: true
+        type: string
+      prerelease:
+        description: Mark this release as a prerelease
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: native-release-${{ github.event.inputs.tag || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  metadata:
+    name: Prepare release metadata
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.metadata.outputs.tag }}
+      version: ${{ steps.metadata.outputs.version }}
+      prerelease: ${{ steps.metadata.outputs.prerelease }}
+
+    steps:
+      - name: Validate version
+        id: metadata
+        shell: bash
+        env:
+          REQUESTED_TAG: ${{ github.event.inputs.tag }}
+          REF_TAG: ${{ github.ref_name }}
+          MANUAL_PRERELEASE: ${{ github.event.inputs.prerelease }}
+        run: |
+          set -euo pipefail
+          tag="${REQUESTED_TAG:-$REF_TAG}"
+          if [[ ! "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+([-.][0-9A-Za-z.-]+)?$ ]]; then
+            echo "Release tag must use semantic versioning, such as v0.1.0 or v0.2.0-rc.1" >&2
+            exit 1
+          fi
+
+          version="${tag#v}"
+          prerelease=false
+          if [[ "$version" == *-* || "$MANUAL_PRERELEASE" == "true" ]]; then
+            prerelease=true
+          fi
+
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "prerelease=$prerelease" >> "$GITHUB_OUTPUT"
+
+  publish:
+    name: Publish · ${{ matrix.name }}
+    needs: metadata
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Windows x64
+            runner: windows-latest
+            runtime: win-x64
+            artifact: windows-x64
+            archive: zip
+          - name: macOS Apple Silicon
+            runner: macos-15
+            runtime: osx-arm64
+            artifact: macos-arm64
+            archive: tar.gz
+          - name: Linux x64
+            runner: ubuntu-latest
+            runtime: linux-x64
+            artifact: linux-x64
+            archive: tar.gz
+
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 60
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Verify Apple Silicon runner
+        if: matrix.runtime == 'osx-arm64'
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = "arm64"
+          echo "Apple Silicon runner verified"
+
+      - name: Restore emulator dependencies
+        run: dotnet restore src/Ryujinx/Ryujinx.csproj --runtime ${{ matrix.runtime }}
+
+      - name: Publish self-contained emulator
+        run: >-
+          dotnet publish src/Ryujinx/Ryujinx.csproj
+          --configuration Release
+          --runtime ${{ matrix.runtime }}
+          --self-contained true
+          --no-restore
+          --output publish/${{ matrix.artifact }}
+          -p:Version=${{ needs.metadata.outputs.version }}
+          -p:SourceRevisionId=${{ github.sha }}
+          -p:DebugType=embedded
+
+      - name: Add legal and provenance notices
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp LICENSE.txt publish/${{ matrix.artifact }}/LICENSE.txt
+          cp UPSTREAM.md publish/${{ matrix.artifact }}/UPSTREAM.md
+          cp distribution/legal/THIRDPARTY.md publish/${{ matrix.artifact }}/THIRDPARTY.md
+
+      - name: Create Apple Silicon application bundle
+        if: matrix.runtime == 'osx-arm64'
+        shell: bash
+        env:
+          VERSION: ${{ needs.metadata.outputs.version }}
+        run: |
+          set -euo pipefail
+          root="$PWD"
+          sed -i.bak \
+            -e "s/%%RYUJINX_BUILD_VERSION%%/$VERSION/g" \
+            -e "s/%%RYUJINX_BUILD_GIT_HASH%%/${GITHUB_SHA}/g" \
+            distribution/macos/Info.plist
+          rm distribution/macos/Info.plist.bak
+          pushd distribution/macos
+          ./create_app_bundle.sh \
+            "$root/publish/macos-arm64" \
+            "$root/bundle" \
+            "$root/distribution/macos/entitlements.xml"
+          popd
+
+      - name: Package Windows release
+        if: matrix.archive == 'zip'
+        shell: pwsh
+        env:
+          VERSION: ${{ needs.metadata.outputs.version }}
+        run: |
+          New-Item -ItemType Directory -Force -Path release-assets | Out-Null
+          Compress-Archive `
+            -Path "publish/${{ matrix.artifact }}/*" `
+            -DestinationPath "release-assets/omniemu-$env:VERSION-${{ matrix.artifact }}.zip" `
+            -CompressionLevel Optimal
+
+      - name: Package Unix release
+        if: matrix.archive == 'tar.gz'
+        shell: bash
+        env:
+          VERSION: ${{ needs.metadata.outputs.version }}
+        run: |
+          set -euo pipefail
+          mkdir -p release-assets
+          if [[ "${{ matrix.runtime }}" == "osx-arm64" ]]; then
+            tar -czf "release-assets/omniemu-$VERSION-${{ matrix.artifact }}.tar.gz" -C bundle Ryujinx.app
+          else
+            tar -czf "release-assets/omniemu-$VERSION-${{ matrix.artifact }}.tar.gz" -C "publish/${{ matrix.artifact }}" .
+          fi
+
+      - name: Generate SHA-256 checksum
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd release-assets
+          file=$(find . -maxdepth 1 -type f ! -name '*.sha256' -print -quit)
+          if command -v sha256sum >/dev/null 2>&1; then
+            sha256sum "${file#./}" > "${file#./}.sha256"
+          else
+            shasum -a 256 "${file#./}" > "${file#./}.sha256"
+          fi
+
+      - name: Upload packaged release
+        uses: actions/upload-artifact@v4
+        with:
+          name: omniemu-release-${{ matrix.artifact }}
+          path: release-assets/*
+          if-no-files-found: error
+          retention-days: 14
+
+  release:
+    name: Publish GitHub release
+    needs:
+      - metadata
+      - publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download packaged builds
+        uses: actions/download-artifact@v4
+        with:
+          pattern: omniemu-release-*
+          path: release-assets
+          merge-multiple: true
+
+      - name: Create or update GitHub release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ needs.metadata.outputs.tag }}
+          RELEASE_VERSION: ${{ needs.metadata.outputs.version }}
+          IS_PRERELEASE: ${{ needs.metadata.outputs.prerelease }}
+        run: |
+          set -euo pipefail
+          mapfile -t assets < <(find release-assets -maxdepth 1 -type f -print | sort)
+          if [[ ${#assets[@]} -eq 0 ]]; then
+            echo "No release assets were downloaded" >&2
+            exit 1
+          fi
+
+          if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" "${assets[@]}" --clobber --repo "$GITHUB_REPOSITORY"
+          else
+            flags=(
+              --repo "$GITHUB_REPOSITORY"
+              --target "$GITHUB_SHA"
+              --title "OmniEMU $RELEASE_VERSION"
+              --generate-notes
+              --notes "Native Nintendo Switch emulator builds for Windows x64, Linux x64, and Apple Silicon macOS. Firmware, keys, and games are not included. Use only files dumped from hardware and software you own."
+            )
+            if [[ "$IS_PRERELEASE" == "true" ]]; then
+              flags+=(--prerelease)
+            fi
+            gh release create "$RELEASE_TAG" "${assets[@]}" "${flags[@]}"
+          fi
