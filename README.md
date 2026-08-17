@@ -55,6 +55,20 @@ dotnet publish src/Ryujinx/Ryujinx.csproj -c Release -r linux-x64 --self-contain
 dotnet publish src/Ryujinx/Ryujinx.csproj -c Release -r osx-arm64 --self-contained true -o publish/macos-arm64
 ```
 
+## Diagnostics and bug reports
+
+OmniEMU includes a cross-platform BugTester that checks the host system, app-data permissions, setup files, configuration JSON, Vulkan availability, crash artifacts, recent error logs, source integrity, project references, versions, workflows, and unresolved merge markers. It creates complete JSON and Markdown reports without reading or copying key, firmware, game, save, or account contents.
+
+```bash
+# Linux and macOS
+./scripts/bugtest.sh
+
+# Any platform with .NET 8
+dotnet run --project tools/OmniEMU.BugTester -- --source . --output ./bug-reports
+```
+
+Use `--app-data PATH` to inspect a specific installation, `--logs N` to select how many recent logs to scan, and `--strict` to make warnings return a failing exit code. See [`docs/QUALITY_ROADMAP.md`](docs/QUALITY_ROADMAP.md) for the current bug and feature priorities.
+
 ## First run
 
 1. Open the native application.

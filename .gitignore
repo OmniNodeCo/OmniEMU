@@ -177,3 +177,4 @@ PublishProfiles/
 # OmniEMU local build output
 publish/
 artifacts/
+bug-reports/

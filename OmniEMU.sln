@@ -89,12 +89,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OmniEMU.Horizon.Kernel.Gene
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OmniEMU.HLE.Generators", "src\OmniEMU.HLE.Generators\OmniEMU.HLE.Generators.csproj", "{B575BCDE-2FD8-4A5D-8756-31CDD7FE81F0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OmniEMU.BugTester", "tools\OmniEMU.BugTester\OmniEMU.BugTester.csproj", "{66DCEC00-1B18-4ABC-BB77-76FE7D77FC95}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{66DCEC00-1B18-4ABC-BB77-76FE7D77FC95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66DCEC00-1B18-4ABC-BB77-76FE7D77FC95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66DCEC00-1B18-4ABC-BB77-76FE7D77FC95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66DCEC00-1B18-4ABC-BB77-76FE7D77FC95}.Release|Any CPU.Build.0 = Release|Any CPU
 		{074045D4-3ED2-4711-9169-E385F2BFB5A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{074045D4-3ED2-4711-9169-E385F2BFB5A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{074045D4-3ED2-4711-9169-E385F2BFB5A0}.Release|Any CPU.ActiveCfg = Release|Any CPU

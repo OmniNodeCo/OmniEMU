@@ -71,6 +71,9 @@
     <ProjectReference Include="..\OmniEMU.UI.Common\OmniEMU.UI.Common.csproj" />
     <ProjectReference Include="..\OmniEMU.UI.LocaleGenerator\OmniEMU.UI.LocaleGenerator.csproj"
                       OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <!-- Compile the standalone diagnostics utility in every product build without shipping it inside the GUI binary. -->
+    <ProjectReference Include="..\..\tools\OmniEMU.BugTester\OmniEMU.BugTester.csproj"
+                      ReferenceOutputAssembly="false" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
