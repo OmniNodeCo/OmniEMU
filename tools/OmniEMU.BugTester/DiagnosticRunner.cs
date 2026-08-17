@@ -489,10 +489,11 @@ public sealed partial class DiagnosticRunner
             versions[relative] = version ?? "(missing)";
         }
         string[] distinct = versions.Values.Distinct().ToArray();
-        Add("SRC005", distinct.Length == 1 && distinct[0] == "0.1.0" ? Severity.Pass : Severity.Error,
+        bool aligned = distinct.Length == 1 && Version.TryParse(distinct[0], out _);
+        Add("SRC005", aligned ? Severity.Pass : Severity.Error,
             "Source", "Product version alignment",
             string.Join("; ", versions.Select(pair => $"{pair.Key}={pair.Value}")),
-            distinct.Length == 1 && distinct[0] == "0.1.0" ? null : "Keep all shipping projects on the same semantic version.");
+            aligned ? null : "Keep all shipping projects on the same valid semantic version.");
     }
 
     private void CheckWorkflowPaths(string source)
