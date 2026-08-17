@@ -515,6 +515,14 @@ namespace OmniEMU.Ava.UI.Windows
 #pragma warning restore IDE0055
         }
 
+        private async void CheckForUpdates_Click(object sender, RoutedEventArgs e)
+        {
+            if (Updater.CanUpdate(true))
+            {
+                await Updater.BeginParse(this, true);
+            }
+        }
+
         private void VolumeStatus_CheckedChanged(object sender, RoutedEventArgs e)
         {
             var volumeSplitButton = sender as ToggleSplitButton;

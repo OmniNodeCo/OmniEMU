@@ -74,6 +74,9 @@
                             <TextBlock FontSize="9" FontWeight="Bold" Foreground="#35CFAF" Text="SYSTEM READY" />
                         </StackPanel>
                     </Border>
+                    <Button Classes="omni-tool" Click="CheckForUpdates_Click" ToolTip.Tip="Check GitHub for updates">
+                        <ui:SymbolIcon Symbol="Refresh" />
+                    </Button>
                     <Button Classes="omni-tool" Command="{Binding ToggleFullscreen}" ToolTip.Tip="Fullscreen (F11)">
                         <TextBlock FontSize="15" Text="⛶" />
                     </Button>

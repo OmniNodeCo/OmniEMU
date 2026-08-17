@@ -32,6 +32,7 @@ namespace OmniEMU.Modules
         private static readonly string _homeDir = AppDomain.CurrentDomain.BaseDirectory;
         private static readonly string _updateDir = Path.Combine(Path.GetTempPath(), "OmniEMU", "update");
         private static readonly string _updatePublishDir = Path.Combine(_updateDir, "publish");
+        private static string _updateContentDir = _updatePublishDir;
 
         private static string _buildVer;
         private static string _platformExt;
@@ -45,12 +46,34 @@ namespace OmniEMU.Modules
 
         private static HttpClient ConstructHttpClient()
         {
-            HttpClient result = new();
+            HttpClient result = new()
+            {
+                Timeout = TimeSpan.FromSeconds(20),
+            };
 
-            // Required by GitHub to interact with APIs.
-            result.DefaultRequestHeaders.Add("User-Agent", "OmniEMU-Updater/1.0.0");
+            result.DefaultRequestHeaders.Add("User-Agent", $"OmniEMU-Updater/{Program.Version}");
+            result.DefaultRequestHeaders.Add("Accept", "application/vnd.github+json");
+            result.DefaultRequestHeaders.Add("X-GitHub-Api-Version", "2022-11-28");
 
             return result;
+        }
+
+        private static bool TryParseReleaseVersion(string value, out Version version)
+        {
+            version = null;
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return false;
+            }
+
+            string normalized = value.Trim().TrimStart('v', 'V');
+            int suffixIndex = normalized.IndexOfAny(new[] { '-', '+' });
+            if (suffixIndex >= 0)
+            {
+                normalized = normalized[..suffixIndex];
+            }
+
+            return Version.TryParse(normalized, out version);
         }
 
         public static async Task BeginParse(MainWindow mainWindow, bool showVersionUpToDate)
@@ -65,43 +88,43 @@ namespace OmniEMU.Modules
 
             int artifactIndex = -1;
 
-            // Detect current platform
-            if (OperatingSystem.IsMacOS())
+            _buildUrl = null;
+            _buildSize = -1;
+
+            // Match assets produced by the OmniEMU release workflow. The legacy GTK
+            // frontend does not attempt in-place updates inside macOS app bundles.
+            if (OperatingSystem.IsWindows() && RuntimeInformation.OSArchitecture == Architecture.X64)
             {
-                _platformExt = "osx_x64.zip";
-                artifactIndex = 1;
-            }
-            else if (OperatingSystem.IsWindows())
-            {
-                _platformExt = "win_x64.zip";
+                _platformExt = "windows-x64.zip";
                 artifactIndex = 2;
             }
-            else if (OperatingSystem.IsLinux())
+            else if (OperatingSystem.IsLinux() && RuntimeInformation.OSArchitecture == Architecture.X64)
             {
-                var arch = RuntimeInformation.OSArchitecture == Architecture.Arm64 ? "arm64" : "x64";
-                _platformExt = $"linux_{arch}.tar.gz";
+                _platformExt = "linux-x64.tar.gz";
                 artifactIndex = 0;
             }
 
             if (artifactIndex == -1)
             {
-                GtkDialog.CreateErrorDialog("Your platform is not supported!");
+                if (showVersionUpToDate)
+                {
+                    GtkDialog.CreateErrorDialog("Automatic updates are not available for this operating system or architecture.");
+                }
 
+                Running = false;
+                mainWindow.UpdateMenuItem.Sensitive = true;
                 return;
             }
 
             Version newVersion;
             Version currentVersion;
 
-            try
-            {
-                currentVersion = Version.Parse(Program.Version);
-            }
-            catch
+            if (!TryParseReleaseVersion(Program.Version, out currentVersion))
             {
                 GtkDialog.CreateWarningDialog("Failed to convert the current OmniEMU version.", "Cancelling Update!");
-                Logger.Error?.Print(LogClass.Application, "Failed to convert the current OmniEMU version!");
-
+                Logger.Error?.Print(LogClass.Application, $"Failed to parse current OmniEMU version '{Program.Version}'.");
+                Running = false;
+                mainWindow.UpdateMenuItem.Sensitive = true;
                 return;
             }
 
@@ -112,13 +135,16 @@ namespace OmniEMU.Modules
                 string buildInfoUrl = $"{GitHubApiUrl}/repos/{ReleaseInformation.ReleaseChannelOwner}/{ReleaseInformation.ReleaseChannelRepo}/releases/latest";
 
                 // Fetch latest build information
-                string fetchedJson = await jsonClient.GetStringAsync(buildInfoUrl);
+                using HttpResponseMessage releaseResponse = await jsonClient.GetAsync(buildInfoUrl, HttpCompletionOption.ResponseHeadersRead);
+                releaseResponse.EnsureSuccessStatusCode();
+                string fetchedJson = await releaseResponse.Content.ReadAsStringAsync();
                 var fetched = JsonHelper.Deserialize(fetchedJson, _serializerContext.GithubReleasesJsonResponse);
-                _buildVer = fetched.Name;
+                _buildVer = (fetched.TagName ?? fetched.Name)?.Trim().TrimStart('v', 'V');
 
                 foreach (var asset in fetched.Assets)
                 {
-                    if (asset.Name.StartsWith("gtk-omniemu") && asset.Name.EndsWith(_platformExt))
+                    if (asset.Name.StartsWith("omniemu-", StringComparison.OrdinalIgnoreCase) &&
+                        asset.Name.EndsWith(_platformExt, StringComparison.OrdinalIgnoreCase))
                     {
                         _buildUrl = asset.BrowserDownloadUrl;
 
@@ -148,21 +174,23 @@ namespace OmniEMU.Modules
             }
             catch (Exception exception)
             {
-                Logger.Error?.Print(LogClass.Application, exception.Message);
-                GtkDialog.CreateErrorDialog("An error occurred when trying to get release information from GitHub Release. This can be caused if a new release is being compiled by GitHub Actions. Try again in a few minutes.");
+                Logger.Warning?.Print(LogClass.Application, $"GitHub update check failed: {exception.Message}");
+                if (showVersionUpToDate)
+                {
+                    GtkDialog.CreateErrorDialog("Unable to retrieve release information from GitHub. Check your connection and try again.");
+                }
 
+                Running = false;
+                mainWindow.UpdateMenuItem.Sensitive = true;
                 return;
             }
 
-            try
-            {
-                newVersion = Version.Parse(_buildVer);
-            }
-            catch
+            if (!TryParseReleaseVersion(_buildVer, out newVersion))
             {
                 GtkDialog.CreateWarningDialog("Failed to convert the received OmniEMU version from GitHub Release.", "Cancelling Update!");
-                Logger.Error?.Print(LogClass.Application, "Failed to convert the received OmniEMU version from GitHub Release!");
-
+                Logger.Error?.Print(LogClass.Application, $"Failed to parse GitHub release version '{_buildVer}'.");
+                Running = false;
+                mainWindow.UpdateMenuItem.Sensitive = true;
                 return;
             }
 
@@ -385,7 +413,7 @@ namespace OmniEMU.Modules
             updateDialog.MainText.Text = "Extracting Update...";
             updateDialog.ProgressBar.Value = 0;
 
-            if (OperatingSystem.IsLinux())
+            if (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS())
             {
                 using Stream inStream = File.OpenRead(updateFile);
                 using Stream gzipStream = new GZipInputStream(inStream);
@@ -460,8 +488,9 @@ namespace OmniEMU.Modules
                 });
             }
 
-            // Delete downloaded zip
+            // Delete the downloaded archive and support both legacy publish/ layouts and root-level release archives.
             File.Delete(updateFile);
+            _updateContentDir = Directory.Exists(_updatePublishDir) ? _updatePublishDir : _updateDir;
 
             List<string> allFiles = EnumerateFilesToDelete().ToList();
 
@@ -493,10 +522,10 @@ namespace OmniEMU.Modules
                 {
                     updateDialog.MainText.Text = "Adding New Files...";
                     updateDialog.ProgressBar.Value = 0;
-                    updateDialog.ProgressBar.MaxValue = Directory.GetFiles(_updatePublishDir, "*", SearchOption.AllDirectories).Length;
+                    updateDialog.ProgressBar.MaxValue = Directory.GetFiles(_updateContentDir, "*", SearchOption.AllDirectories).Length;
                 });
 
-                MoveAllFilesOver(_updatePublishDir, _homeDir, updateDialog);
+                MoveAllFilesOver(_updateContentDir, _homeDir, updateDialog);
             });
 
             Directory.Delete(_updateDir, true);
@@ -561,7 +590,7 @@ namespace OmniEMU.Modules
             {
                 // Compare the loose files in base directory against the loose files from the incoming update, and store foreign ones in a user list.
                 var oldFiles = Directory.EnumerateFiles(_homeDir, "*", SearchOption.TopDirectoryOnly).Select(Path.GetFileName);
-                var newFiles = Directory.EnumerateFiles(_updatePublishDir, "*", SearchOption.TopDirectoryOnly).Select(Path.GetFileName);
+                var newFiles = Directory.EnumerateFiles(_updateContentDir, "*", SearchOption.TopDirectoryOnly).Select(Path.GetFileName);
                 var userFiles = oldFiles.Except(newFiles).Select(filename => Path.Combine(_homeDir, filename));
 
                 // Remove user files from the paths in files.
