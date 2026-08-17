@@ -45,7 +45,6 @@
                             FontSize="34"
                             FontWeight="Bold"
                             Foreground="White"
-                            LetterSpacing="1"
                             Text="OmniEMU" />
                         <TextBlock
                             FontSize="14"

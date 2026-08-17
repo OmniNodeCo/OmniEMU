@@ -53,8 +53,8 @@
                 <StackPanel Orientation="Horizontal" Spacing="11" VerticalAlignment="Center">
                     <Image Width="38" Height="38" Source="resm:OmniEMU.UI.Common.Resources.Logo_OmniEMU.png?assembly=OmniEMU.UI.Common" />
                     <StackPanel Spacing="0" VerticalAlignment="Center">
-                        <TextBlock FontSize="17" FontWeight="Bold" LetterSpacing=".7" Text="OmniEMU" />
-                        <TextBlock FontSize="8" FontWeight="SemiBold" Foreground="{DynamicResource OmniMutedTextBrush}" LetterSpacing="1.2" Text="BY OMNINODECO" />
+                        <TextBlock FontSize="17" FontWeight="Bold" Text="OmniEMU" />
+                        <TextBlock FontSize="8" FontWeight="SemiBold" Foreground="{DynamicResource OmniMutedTextBrush}" Text="BY OMNINODECO" />
                     </StackPanel>
                 </StackPanel>
                 <Border Grid.Column="1" Width="1" Height="28" Margin="19,0" Background="{DynamicResource OmniBorderBrush}" />

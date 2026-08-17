@@ -21,8 +21,6 @@
         HorizontalAlignment="Stretch"
         VerticalAlignment="Bottom"
         Background="{DynamicResource OmniPanelBrush}"
-        BorderBrush="{DynamicResource OmniBorderBrush}"
-        BorderThickness="0,1,0,0"
         DockPanel.Dock="Bottom"
         IsVisible="{Binding ShowMenuAndStatusBar}">
         <Grid.ColumnDefinitions>
