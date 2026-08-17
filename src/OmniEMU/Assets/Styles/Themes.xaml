@@ -1,85 +1,111 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Default">
-            <SolidColorBrush x:Key="DataGridSelectionBackgroundBrush"
-                             Color="{DynamicResource DataGridSelectionColor}" />
-            <SolidColorBrush x:Key="ThemeAccentColorBrush"
-                             Color="{DynamicResource SystemAccentColor}" />
-            <SolidColorBrush x:Key="ThemeAccentBrush4"
-                             Color="{DynamicResource ThemeAccentColor4}" />
-            <Color x:Key="SystemAccentColor">#FF00C3E3</Color>
-            <Color x:Key="SystemAccentColorDark1">#FF00C3E3</Color>
-            <Color x:Key="SystemAccentColorDark2">#FF00C3E3</Color>
-            <Color x:Key="SystemAccentColorDark3">#FF00C3E3</Color>
-            <Color x:Key="SystemAccentColorLight1">#FF00C3E3</Color>
-            <Color x:Key="SystemAccentColorLight2">#FF00C3E3</Color>
-            <Color x:Key="SystemAccentColorLight3">#FF00C3E3</Color>
-            <Color x:Key="ThemeAccentColor4">#FFe8e8e8</Color>
-            <Color x:Key="DataGridSelectionColor">#FF00FABB</Color>
-            <Color x:Key="ThemeContentBackgroundColor">#FFF0F0F0</Color>
-            <Color x:Key="ThemeControlBorderColor">#FFd6d6d6</Color>
-            <Color x:Key="TextOnAccentFillColorPrimary">#FFFFFFFF</Color>
-            <Color x:Key="SystemChromeWhiteColor">#FFFFFFFF</Color>
-            <Color x:Key="ThemeForegroundColor">#FF000000</Color>
-            <Color x:Key="MenuFlyoutPresenterBorderColor">#C1C1C1</Color>
-            <Color x:Key="AppListBackgroundColor">#b3ffffff</Color>
-            <Color x:Key="AppListHoverBackgroundColor">#80cccccc</Color>
-            <Color x:Key="SecondaryTextColor">#A0000000</Color>
-            <Color x:Key="VsyncEnabled">#FF2EEAC9</Color>
-            <Color x:Key="VsyncDisabled">#FFFF4554</Color>
+            <Color x:Key="SystemAccentColor">#6D7CFF</Color>
+            <Color x:Key="SystemAccentColorDark1">#5968E8</Color>
+            <Color x:Key="SystemAccentColorDark2">#4654C9</Color>
+            <Color x:Key="SystemAccentColorDark3">#35419F</Color>
+            <Color x:Key="SystemAccentColorLight1">#8995FF</Color>
+            <Color x:Key="SystemAccentColorLight2">#A8B0FF</Color>
+            <Color x:Key="SystemAccentColorLight3">#CCD0FF</Color>
+            <Color x:Key="ThemeAccentColor4">#EDF0F7</Color>
+            <Color x:Key="DataGridSelectionColor">#6D7CFF</Color>
+            <Color x:Key="ThemeContentBackgroundColor">#F4F6FA</Color>
+            <Color x:Key="ThemeControlBorderColor">#DDE2EB</Color>
+            <Color x:Key="TextOnAccentFillColorPrimary">#FFFFFF</Color>
+            <Color x:Key="SystemChromeWhiteColor">#FFFFFF</Color>
+            <Color x:Key="ThemeForegroundColor">#101522</Color>
+            <Color x:Key="MenuFlyoutPresenterBorderColor">#D8DEE9</Color>
+            <Color x:Key="AppListBackgroundColor">#F9FAFC</Color>
+            <Color x:Key="AppListHoverBackgroundColor">#E9ECF5</Color>
+            <Color x:Key="SecondaryTextColor">#687287</Color>
+            <Color x:Key="VsyncEnabled">#21C997</Color>
+            <Color x:Key="VsyncDisabled">#FF6474</Color>
+            <SolidColorBrush x:Key="DataGridSelectionBackgroundBrush" Color="{DynamicResource DataGridSelectionColor}" />
+            <SolidColorBrush x:Key="ThemeAccentColorBrush" Color="{DynamicResource SystemAccentColor}" />
+            <SolidColorBrush x:Key="ThemeAccentBrush4" Color="{DynamicResource ThemeAccentColor4}" />
+            <SolidColorBrush x:Key="OmniWindowBrush" Color="#F0F2F7" />
+            <SolidColorBrush x:Key="OmniPanelBrush" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="OmniSubtleBrush" Color="#F7F8FB" />
+            <SolidColorBrush x:Key="OmniBorderBrush" Color="#DDE2EB" />
+            <SolidColorBrush x:Key="OmniMutedTextBrush" Color="#687287" />
+            <LinearGradientBrush x:Key="OmniHeroBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Offset="0" Color="#182A47" />
+                <GradientStop Offset="0.5" Color="#283A70" />
+                <GradientStop Offset="1" Color="#6348A8" />
+            </LinearGradientBrush>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
-            <SolidColorBrush x:Key="DataGridSelectionBackgroundBrush"
-                             Color="{DynamicResource DataGridSelectionColor}" />
-            <SolidColorBrush x:Key="ThemeAccentColorBrush"
-                             Color="{DynamicResource SystemAccentColor}" />
-            <SolidColorBrush x:Key="ThemeAccentBrush4"
-                             Color="{DynamicResource ThemeAccentColor4}" />
-            <Color x:Key="SystemAccentColor">#FF00C3E3</Color>
-            <Color x:Key="SystemAccentColorDark1">#FF00C3E3</Color>
-            <Color x:Key="SystemAccentColorDark2">#FF00C3E3</Color>
-            <Color x:Key="SystemAccentColorDark3">#FF00C3E3</Color>
-            <Color x:Key="SystemAccentColorLight1">#FF00C3E3</Color>
-            <Color x:Key="SystemAccentColorLight2">#FF00C3E3</Color>
-            <Color x:Key="SystemAccentColorLight3">#FF00C3E3</Color>
-            <Color x:Key="ThemeAccentColor4">#FFe8e8e8</Color>
-            <Color x:Key="DataGridSelectionColor">#FF00FABB</Color>
-            <Color x:Key="ThemeContentBackgroundColor">#FFF0F0F0</Color>
-            <Color x:Key="ThemeControlBorderColor">#FFd6d6d6</Color>
-            <Color x:Key="TextOnAccentFillColorPrimary">#FFFFFFFF</Color>
-            <Color x:Key="SystemChromeWhiteColor">#FFFFFFFF</Color>
-            <Color x:Key="ThemeForegroundColor">#FF000000</Color>
-            <Color x:Key="MenuFlyoutPresenterBorderColor">#C1C1C1</Color>
-            <Color x:Key="AppListBackgroundColor">#b3ffffff</Color>
-            <Color x:Key="AppListHoverBackgroundColor">#80cccccc</Color>
-            <Color x:Key="SecondaryTextColor">#A0000000</Color>
+            <Color x:Key="SystemAccentColor">#6D7CFF</Color>
+            <Color x:Key="SystemAccentColorDark1">#5968E8</Color>
+            <Color x:Key="SystemAccentColorDark2">#4654C9</Color>
+            <Color x:Key="SystemAccentColorDark3">#35419F</Color>
+            <Color x:Key="SystemAccentColorLight1">#8995FF</Color>
+            <Color x:Key="SystemAccentColorLight2">#A8B0FF</Color>
+            <Color x:Key="SystemAccentColorLight3">#CCD0FF</Color>
+            <Color x:Key="ThemeAccentColor4">#EDF0F7</Color>
+            <Color x:Key="DataGridSelectionColor">#6D7CFF</Color>
+            <Color x:Key="ThemeContentBackgroundColor">#F4F6FA</Color>
+            <Color x:Key="ThemeControlBorderColor">#DDE2EB</Color>
+            <Color x:Key="TextOnAccentFillColorPrimary">#FFFFFF</Color>
+            <Color x:Key="SystemChromeWhiteColor">#FFFFFF</Color>
+            <Color x:Key="ThemeForegroundColor">#101522</Color>
+            <Color x:Key="MenuFlyoutPresenterBorderColor">#D8DEE9</Color>
+            <Color x:Key="AppListBackgroundColor">#F9FAFC</Color>
+            <Color x:Key="AppListHoverBackgroundColor">#E9ECF5</Color>
+            <Color x:Key="SecondaryTextColor">#687287</Color>
+            <Color x:Key="VsyncEnabled">#21C997</Color>
+            <Color x:Key="VsyncDisabled">#FF6474</Color>
+            <SolidColorBrush x:Key="DataGridSelectionBackgroundBrush" Color="{DynamicResource DataGridSelectionColor}" />
+            <SolidColorBrush x:Key="ThemeAccentColorBrush" Color="{DynamicResource SystemAccentColor}" />
+            <SolidColorBrush x:Key="ThemeAccentBrush4" Color="{DynamicResource ThemeAccentColor4}" />
+            <SolidColorBrush x:Key="OmniWindowBrush" Color="#F0F2F7" />
+            <SolidColorBrush x:Key="OmniPanelBrush" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="OmniSubtleBrush" Color="#F7F8FB" />
+            <SolidColorBrush x:Key="OmniBorderBrush" Color="#DDE2EB" />
+            <SolidColorBrush x:Key="OmniMutedTextBrush" Color="#687287" />
+            <LinearGradientBrush x:Key="OmniHeroBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Offset="0" Color="#182A47" />
+                <GradientStop Offset="0.5" Color="#283A70" />
+                <GradientStop Offset="1" Color="#6348A8" />
+            </LinearGradientBrush>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
-            <SolidColorBrush x:Key="DataGridSelectionBackgroundBrush"
-                             Color="{DynamicResource DataGridSelectionColor}" />
-            <SolidColorBrush x:Key="ThemeAccentColorBrush"
-                             Color="{DynamicResource SystemAccentColor}" />
-            <SolidColorBrush x:Key="ThemeAccentBrush4"
-                             Color="{DynamicResource ThemeAccentColor4}" />
-            <Color x:Key="ControlFillColorSecondary">#008AA8</Color>
-            <Color x:Key="SystemAccentColor">#FF00C3E3</Color>
-            <Color x:Key="SystemAccentColorDark1">#FF99b000</Color>
-            <Color x:Key="SystemAccentColorDark2">#FF006d7d</Color>
-            <Color x:Key="SystemAccentColorDark3">#FF00525E</Color>
-            <Color x:Key="SystemAccentColorLight1">#FF00dbff</Color>
-            <Color x:Key="SystemAccentColorLight2">#FF19dfff</Color>
-            <Color x:Key="SystemAccentColorLight3">#FF33e3ff</Color>
-            <Color x:Key="DataGridSelectionColor">#FF00FABB</Color>
-            <Color x:Key="ThemeContentBackgroundColor">#FF2D2D2D</Color>
-            <Color x:Key="ThemeControlBorderColor">#FF505050</Color>
-            <Color x:Key="TextOnAccentFillColorPrimary">#FFFFFFFF</Color>
-            <Color x:Key="SystemChromeWhiteColor">#FFFFFFFF</Color>
-            <Color x:Key="ThemeForegroundColor">#FFFFFFFF</Color>
-            <Color x:Key="MenuFlyoutPresenterBorderColor">#3D3D3D</Color>
-            <Color x:Key="AppListBackgroundColor">#0FFFFFFF</Color>
-            <Color x:Key="AppListHoverBackgroundColor">#1EFFFFFF</Color>
-            <Color x:Key="SecondaryTextColor">#A0FFFFFF</Color>
+            <Color x:Key="ControlFillColorSecondary">#222B3B</Color>
+            <Color x:Key="SystemAccentColor">#7E8CFF</Color>
+            <Color x:Key="SystemAccentColorDark1">#6878F0</Color>
+            <Color x:Key="SystemAccentColorDark2">#5261CB</Color>
+            <Color x:Key="SystemAccentColorDark3">#3E4A9E</Color>
+            <Color x:Key="SystemAccentColorLight1">#98A3FF</Color>
+            <Color x:Key="SystemAccentColorLight2">#B3BAFF</Color>
+            <Color x:Key="SystemAccentColorLight3">#D3D7FF</Color>
+            <Color x:Key="ThemeAccentColor4">#17202D</Color>
+            <Color x:Key="DataGridSelectionColor">#7E8CFF</Color>
+            <Color x:Key="ThemeContentBackgroundColor">#0A0F18</Color>
+            <Color x:Key="ThemeControlBorderColor">#202B3A</Color>
+            <Color x:Key="TextOnAccentFillColorPrimary">#FFFFFF</Color>
+            <Color x:Key="SystemChromeWhiteColor">#FFFFFF</Color>
+            <Color x:Key="ThemeForegroundColor">#F3F6FB</Color>
+            <Color x:Key="MenuFlyoutPresenterBorderColor">#273345</Color>
+            <Color x:Key="AppListBackgroundColor">#0D131E</Color>
+            <Color x:Key="AppListHoverBackgroundColor">#182232</Color>
+            <Color x:Key="SecondaryTextColor">#8D99AC</Color>
+            <Color x:Key="VsyncEnabled">#35F3CE</Color>
+            <Color x:Key="VsyncDisabled">#FF6474</Color>
+            <SolidColorBrush x:Key="DataGridSelectionBackgroundBrush" Color="{DynamicResource DataGridSelectionColor}" />
+            <SolidColorBrush x:Key="ThemeAccentColorBrush" Color="{DynamicResource SystemAccentColor}" />
+            <SolidColorBrush x:Key="ThemeAccentBrush4" Color="{DynamicResource ThemeAccentColor4}" />
+            <SolidColorBrush x:Key="OmniWindowBrush" Color="#070B12" />
+            <SolidColorBrush x:Key="OmniPanelBrush" Color="#0D131E" />
+            <SolidColorBrush x:Key="OmniSubtleBrush" Color="#101824" />
+            <SolidColorBrush x:Key="OmniBorderBrush" Color="#202B3A" />
+            <SolidColorBrush x:Key="OmniMutedTextBrush" Color="#8D99AC" />
+            <LinearGradientBrush x:Key="OmniHeroBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Offset="0" Color="#0D2530" />
+                <GradientStop Offset="0.5" Color="#182B53" />
+                <GradientStop Offset="1" Color="#3B2867" />
+            </LinearGradientBrush>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

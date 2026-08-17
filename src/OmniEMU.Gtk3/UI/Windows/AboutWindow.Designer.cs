@@ -1,4 +1,4 @@
-﻿using Gtk;
+using Gtk;
 using Pango;
 using OmniEMU.UI.Common.Configuration;
 using System.Reflection;
@@ -388,7 +388,7 @@ namespace OmniEMU.UI.Windows
                 Margin = 15,
                 MarginEnd = 30,
             };
-            _createdByText.Buffer.Text = "gdkchan, Ac_K, Thog, rip in peri peri, LDj3SNuD, emmaus, Thealexbarney, Xpl0itR, GoffyDude, »jD« and more...";
+            _createdByText.Buffer.Text = "OmniNodeCo and the OmniEMU contributors. Upstream emulator-core attribution is preserved in the license notices.";
 
             //
             // _contributorsEventBox

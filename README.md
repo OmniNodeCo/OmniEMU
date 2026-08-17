@@ -1,5 +1,7 @@
 # OmniEMU
 
+**Created and maintained by [OmniNodeCo](https://github.com/OmniNodeCo).**
+
 OmniEMU is a **real, native Nintendo Switch emulator** for Windows, Linux, and Apple Silicon macOS. It is built from the MIT-licensed Ryujinx emulation architecture and includes a real ARM CPU translator, Horizon OS high-level emulation, Maxwell GPU emulation, Vulkan/OpenGL rendering, audio, controller input, shader caching, and an Avalonia desktop interface.
 
 This repository no longer contains the earlier browser UI prototype.

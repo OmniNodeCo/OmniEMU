@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -17,10 +17,12 @@
     <Grid
         Name="StatusBar"
         Margin="0"
-        MinHeight="22"
+        MinHeight="36"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Bottom"
-        Background="{DynamicResource ThemeContentBackgroundColor}"
+        Background="{DynamicResource OmniPanelBrush}"
+        BorderBrush="{DynamicResource OmniBorderBrush}"
+        BorderThickness="0,1,0,0"
         DockPanel.Dock="Bottom"
         IsVisible="{Binding ShowMenuAndStatusBar}">
         <Grid.ColumnDefinitions>

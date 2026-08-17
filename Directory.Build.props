@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+    <Product>OmniEMU</Product>
+    <Company>OmniNodeCo</Company>
+    <Authors>OmniNodeCo and OmniEMU contributors</Authors>
+    <Description>A native, cross-platform Nintendo Switch emulator maintained by OmniNodeCo.</Description>
+    <RepositoryUrl>https://github.com/OmniNodeCo/OmniEMU</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/OmniNodeCo/OmniEMU</PackageProjectUrl>
+    <Copyright>Copyright © 2026 OmniNodeCo. Emulator core portions © Ryujinx Team and Contributors.</Copyright>
+  </PropertyGroup>
+</Project>

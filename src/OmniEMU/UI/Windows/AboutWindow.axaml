@@ -3,268 +3,143 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:locale="clr-namespace:OmniEMU.Ava.Common.Locale"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
     xmlns:viewModel="clr-namespace:OmniEMU.Ava.UI.ViewModels"
-    Width="550"
-    Height="260"
-    Margin="0,-12,0,0"
-    d:DesignHeight="260"
-    d:DesignWidth="550"
+    Width="720"
+    Height="470"
+    d:DesignHeight="470"
+    d:DesignWidth="720"
     x:DataType="viewModel:AboutWindowViewModel"
     Focusable="True"
     mc:Ignorable="d">
     <Design.DataContext>
         <viewModel:AboutWindowViewModel />
     </Design.DataContext>
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid
-            Grid.Column="0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <StackPanel
+
+    <Border
+        Margin="4"
+        Background="{DynamicResource OmniPanelBrush}"
+        BorderBrush="{DynamicResource OmniBorderBrush}"
+        BorderThickness="1"
+        CornerRadius="24"
+        ClipToBounds="True">
+        <Grid RowDefinitions="Auto,*,Auto">
+            <Border
                 Grid.Row="0"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Spacing="10">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <StackPanel
-                        Grid.Column="1"
-                        Orientation="Horizontal"
-                        HorizontalAlignment="Center"
-                        Spacing="10">
-                        <Image
-                            Height="80"
-                            Source="resm:OmniEMU.UI.Common.Resources.Logo_OmniEMU.png?assembly=OmniEMU.UI.Common"
-                            HorizontalAlignment="Center"
-                            IsHitTestVisible="True" />
-                        <WrapPanel
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            Orientation="Vertical">
-                            <TextBlock
-                                FontSize="28"
-                                FontWeight="Bold"
-                                Text="OmniEMU"
-                                TextAlignment="Start"
-                                Width="110"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center" />
-                            <TextBlock
-                                FontSize="11"
-                                Text="(REE-YOU-JINX)"
-                                TextAlignment="Start"
-                                Width="110"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center" />
-                        </WrapPanel>
+                Padding="30,28"
+                Background="{DynamicResource OmniHeroBrush}">
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <Border
+                        Width="112"
+                        Height="112"
+                        Padding="12"
+                        Background="#18000000"
+                        BorderBrush="#30FFFFFF"
+                        BorderThickness="1"
+                        CornerRadius="28">
+                        <Image Source="resm:OmniEMU.UI.Common.Resources.Logo_OmniEMU.png?assembly=OmniEMU.UI.Common" />
+                    </Border>
+                    <StackPanel Grid.Column="1" Margin="24,5,20,0" Spacing="7">
+                        <TextBlock
+                            FontSize="34"
+                            FontWeight="Bold"
+                            Foreground="White"
+                            LetterSpacing="1"
+                            Text="OmniEMU" />
+                        <TextBlock
+                            FontSize="14"
+                            Foreground="#CCFFFFFF"
+                            Text="Native Nintendo Switch emulation, refined." />
+                        <StackPanel Margin="0,8,0,0" Orientation="Horizontal" Spacing="8">
+                            <Border Classes="brand-chip"><TextBlock Text="{Binding Version}" /></Border>
+                            <Border Classes="brand-chip"><TextBlock Text="OPEN SOURCE" /></Border>
+                            <Border Classes="brand-chip"><TextBlock Text="CROSS-PLATFORM" /></Border>
+                        </StackPanel>
                     </StackPanel>
+                    <Border
+                        Grid.Column="2"
+                        Padding="12,7"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Background="#2235F3CE"
+                        BorderBrush="#5535F3CE"
+                        BorderThickness="1"
+                        CornerRadius="16">
+                        <StackPanel Orientation="Horizontal" Spacing="7">
+                            <Ellipse Width="7" Height="7" VerticalAlignment="Center" Fill="#35F3CE" />
+                            <TextBlock FontSize="11" FontWeight="SemiBold" Foreground="#D9FFF7" Text="CORE READY" />
+                        </StackPanel>
+                    </Border>
                 </Grid>
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontSize="10"
-                    LineHeight="12"
-                    Text="{Binding Version}"
-                    TextAlignment="Center" />
-                <Button
-                    Padding="5"
-                    HorizontalAlignment="Center"
-                    Background="Transparent"
-                    Click="Button_OnClick"
-                    Tag="https://github.com/OmniNodeCo/OmniEMU/releases">
+            </Border>
+
+            <Grid Grid.Row="1" Margin="30,24" ColumnDefinitions="1.35*,1*">
+                <StackPanel Margin="0,0,28,0" Spacing="12">
+                    <TextBlock Classes="section-label" Text="ABOUT THE PROJECT" />
                     <TextBlock
-                        FontSize="10"
-                        Text="{locale:Locale AboutChangelogButton}"
-                        TextAlignment="Center"
-                        ToolTip.Tip="{locale:Locale AboutChangelogButtonTooltipMessage}" />
-                </Button>
-            </StackPanel>
-            <StackPanel
-                Grid.Row="2"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Spacing="10">
-                <TextBlock
-                    Width="200"
-                    HorizontalAlignment="Center"
-                    FontSize="10"
-                    LineHeight="12"
-                    Text="{locale:Locale AboutDisclaimerMessage}"
-                    TextAlignment="Center"
-                    TextWrapping="Wrap" />
-                <TextBlock
-                    Name="AmiiboLabel"
-                    Width="200"
-                    HorizontalAlignment="Center"
-                    FontSize="10"
-                    LineHeight="12"
-                    PointerPressed="AmiiboLabel_OnPointerPressed"
-                    Text="{locale:Locale AboutAmiiboDisclaimerMessage}"
-                    TextAlignment="Center"
-                    TextWrapping="Wrap" />
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    Orientation="Horizontal"
-                    Spacing="10">
-                    <Button
-                        MinWidth="30"
-                        MinHeight="30"
-                        MaxWidth="30"
-                        MaxHeight="30"
-                        Padding="8"
-                        Background="Transparent"
-                        Click="Button_OnClick"
-                        CornerRadius="15"
-                        Tag="https://www.patreon.com/omniemu"
-                        ToolTip.Tip="{locale:Locale AboutPatreonUrlTooltipMessage}">
-                        <Image Source="{Binding PatreonLogo}" />
+                        FontSize="14"
+                        LineHeight="21"
+                        Text="OmniEMU is a performance-focused, native emulator with ARM CPU translation, Horizon OS services, Vulkan and OpenGL graphics, audio, input, shader caching, mods, DLC, and save management."
+                        TextWrapping="Wrap" />
+                    <Border Margin="0,8,0,0" Padding="16" Classes="omni-card">
+                        <Grid ColumnDefinitions="Auto,*">
+                            <Border Width="36" Height="36" Background="#2035F3CE" CornerRadius="10">
+                                <ui:SymbolIcon Foreground="#35F3CE" Symbol="Edit" />
+                            </Border>
+                            <StackPanel Grid.Column="1" Margin="12,0,0,0" Spacing="3">
+                                <TextBlock FontSize="11" Foreground="{DynamicResource OmniMutedTextBrush}" Text="CREATED AND MAINTAINED BY" />
+                                <TextBlock FontSize="17" FontWeight="Bold" Text="OmniNodeCo" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Spacing="12">
+                    <TextBlock Classes="section-label" Text="PROJECT LINKS" />
+                    <Button Classes="about-link" Click="Button_OnClick" Tag="https://github.com/OmniNodeCo/OmniEMU">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <ui:SymbolIcon Symbol="Link" />
+                            <StackPanel Grid.Column="1" Margin="12,0" Spacing="2">
+                                <TextBlock FontWeight="SemiBold" Text="Source code" />
+                                <TextBlock FontSize="10" Foreground="{DynamicResource OmniMutedTextBrush}" Text="github.com/OmniNodeCo/OmniEMU" />
+                            </StackPanel>
+                            <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="↗" />
+                        </Grid>
                     </Button>
-                    <Button
-                        MinWidth="30"
-                        MinHeight="30"
-                        MaxWidth="30"
-                        MaxHeight="30"
-                        Padding="8"
-                        Background="Transparent"
-                        Click="Button_OnClick"
-                        CornerRadius="15"
-                        Tag="https://github.com/OmniNodeCo/OmniEMU"
-                        ToolTip.Tip="{locale:Locale AboutGithubUrlTooltipMessage}">
-                        <Image Source="{Binding GithubLogo}" />
+                    <Button Classes="about-link" Click="Button_OnClick" Tag="https://github.com/OmniNodeCo/OmniEMU/releases">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <ui:SymbolIcon Symbol="Upload" />
+                            <StackPanel Grid.Column="1" Margin="12,0" Spacing="2">
+                                <TextBlock FontWeight="SemiBold" Text="Releases" />
+                                <TextBlock FontSize="10" Foreground="{DynamicResource OmniMutedTextBrush}" Text="Native builds and changelogs" />
+                            </StackPanel>
+                            <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="↗" />
+                        </Grid>
                     </Button>
-                    <Button
-                        MinWidth="30"
-                        MinHeight="30"
-                        MaxWidth="30"
-                        MaxHeight="30"
-                        Padding="8"
-                        Background="Transparent"
-                        Click="Button_OnClick"
-                        CornerRadius="15"
-                        Tag="https://discordapp.com/invite/N2FmfVc"
-                        ToolTip.Tip="{locale:Locale AboutDiscordUrlTooltipMessage}">
-                        <Image Source="{Binding DiscordLogo}" />
-                    </Button>
-                    <Button
-                        MinWidth="30"
-                        MinHeight="30"
-                        MaxWidth="30"
-                        MaxHeight="30"
-                        Padding="8"
-                        Background="Transparent"
-                        Click="Button_OnClick"
-                        CornerRadius="15"
-                        Tag="https://twitter.com/OmniEMUEmu"
-                        ToolTip.Tip="{locale:Locale AboutTwitterUrlTooltipMessage}">
-                        <Image Source="{Binding TwitterLogo}" />
-                    </Button>
-                    <Button
-                        MinWidth="30"
-                        MinHeight="30"
-                        MaxWidth="30"
-                        MaxHeight="30"
-                        Padding="8"
-                        Background="Transparent"
-                        Click="Button_OnClick"
-                        CornerRadius="15"
-                        Tag="https://github.com/OmniNodeCo/OmniEMU"
-                        ToolTip.Tip="{locale:Locale AboutUrlTooltipMessage}">
-                        <ui:SymbolIcon Foreground="{DynamicResource ThemeForegroundColor}" Symbol="Link" />
+                    <Button Classes="about-link" Click="Button_OnClick" Tag="https://github.com/OmniNodeCo/OmniEMU/blob/main/LICENSE.txt">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <ui:SymbolIcon Symbol="Help" />
+                            <StackPanel Grid.Column="1" Margin="12,0" Spacing="2">
+                                <TextBlock FontWeight="SemiBold" Text="License &amp; credits" />
+                                <TextBlock FontSize="10" Foreground="{DynamicResource OmniMutedTextBrush}" Text="MIT license and upstream attribution" />
+                            </StackPanel>
+                            <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="↗" />
+                        </Grid>
                     </Button>
                 </StackPanel>
-            </StackPanel>
-        </Grid>
-        <Border
-            Grid.Column="1"
-            Width="1"
-            Margin="20,0"
-            VerticalAlignment="Stretch"
-            BorderBrush="{DynamicResource ThemeControlBorderColor}"
-            BorderThickness="1,0,0,0" />
-        <Grid
-            Grid.Column="2"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <StackPanel
-                Grid.Row="0"
-                Margin="0,10,0,0"
-                Spacing="2">
-                <TextBlock
-                    FontSize="15"
-                    FontWeight="Bold"
-                    Text="{locale:Locale AboutOmniEMUAboutTitle}" />
-                <TextBlock
-                    FontSize="10"
-                    Text="{locale:Locale AboutOmniEMUAboutContent}"
-                    TextWrapping="Wrap" />
-            </StackPanel>
-            <StackPanel
-                Grid.Row="1"
-                Margin="0,10,0,0"
-                Spacing="2">
-                <TextBlock
-                    FontSize="15"
-                    FontWeight="Bold"
-                    Text="{locale:Locale AboutOmniEMUMaintainersTitle}" />
-                <TextBlock
-                    FontSize="10"
-                    Text="{Binding Developers}"
-                    TextWrapping="Wrap" />
-                <Button
-                    Padding="5"
-                    HorizontalAlignment="Left"
-                    Background="Transparent"
-                    Click="Button_OnClick"
-                    Tag="https://github.com/OmniNodeCo/OmniEMU/graphs/contributors?type=a">
+            </Grid>
+
+            <Border Grid.Row="2" Padding="30,14" Background="{DynamicResource OmniSubtleBrush}" BorderBrush="{DynamicResource OmniBorderBrush}" BorderThickness="0,1,0,0">
+                <Grid ColumnDefinitions="*,Auto">
                     <TextBlock
+                        VerticalAlignment="Center"
                         FontSize="10"
-                        Text="{locale:Locale AboutOmniEMUContributorsButtonHeader}"
-                        TextAlignment="End"
-                        ToolTip.Tip="{locale:Locale AboutOmniEMUMaintainersContentTooltipMessage}" />
-                </Button>
-            </StackPanel>
-            <StackPanel
-                Grid.Row="2"
-                Margin="0,10,0,0"
-                Spacing="2">
-                <TextBlock
-                    FontSize="15"
-                    FontWeight="Bold"
-                    Text="{locale:Locale AboutOmniEMUSupprtersTitle}" />
-                <ScrollViewer
-                    Height="70"
-                    HorizontalScrollBarVisibility="Disabled"
-                    VerticalScrollBarVisibility="Visible">
-                    <TextBlock
-                        Name="SupportersTextBlock"
-                        VerticalAlignment="Top"
-                        FontSize="10"
-                        Text="{Binding Supporters}"
-                        TextWrapping="Wrap" />
-                </ScrollViewer>
-            </StackPanel>
+                        Foreground="{DynamicResource OmniMutedTextBrush}"
+                        Text="OmniEMU is not affiliated with Nintendo. Use only firmware, keys, and games dumped from hardware and software you own." />
+                    <TextBlock Grid.Column="1" FontSize="10" FontWeight="SemiBold" Foreground="#35F3CE" Text="OMNINODECO · 2026" />
+                </Grid>
+            </Border>
         </Grid>
-    </Grid>
+    </Border>
 </UserControl>

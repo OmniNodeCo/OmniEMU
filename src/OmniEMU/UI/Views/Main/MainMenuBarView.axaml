@@ -14,9 +14,12 @@
     <DockPanel HorizontalAlignment="Stretch">
         <Menu
             Name="Menu"
-            Height="35"
+            Height="40"
             Margin="0"
+            Padding="0"
+            Background="Transparent"
             HorizontalAlignment="Left"
+            VerticalAlignment="Center"
             IsOpen="{Binding IsSubMenuOpen, Mode=OneWayToSource}">
             <Menu.ItemsPanel>
                 <ItemsPanelTemplate>
