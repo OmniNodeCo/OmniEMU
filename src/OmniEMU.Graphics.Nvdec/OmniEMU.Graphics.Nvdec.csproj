@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OmniEMU.Common\OmniEMU.Common.csproj" />
+    <ProjectReference Include="..\OmniEMU.Graphics.Device\OmniEMU.Graphics.Device.csproj" />
+    <ProjectReference Include="..\OmniEMU.Graphics.Nvdec.FFmpeg\OmniEMU.Graphics.Nvdec.FFmpeg.csproj" />
+    <ProjectReference Include="..\OmniEMU.Graphics.Nvdec.Vp9\OmniEMU.Graphics.Nvdec.Vp9.csproj" />
+    <ProjectReference Include="..\OmniEMU.Graphics.Texture\OmniEMU.Graphics.Texture.csproj" />
+    <ProjectReference Include="..\OmniEMU.Graphics.Video\OmniEMU.Graphics.Video.csproj" />
+  </ItemGroup>
+
+</Project>

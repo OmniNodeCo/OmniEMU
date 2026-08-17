@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OmniEMU.Common\OmniEMU.Common.csproj" />
+    <ProjectReference Include="..\OmniEMU.Cpu\OmniEMU.Cpu.csproj" />
+    <ProjectReference Include="..\OmniEMU.Memory\OmniEMU.Memory.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -6,7 +6,7 @@ PUBLISH_DIRECTORY=$1
 OUTPUT_DIRECTORY=$2
 ENTITLEMENTS_FILE_PATH=$3
 
-APP_BUNDLE_DIRECTORY="$OUTPUT_DIRECTORY/Ryujinx.app"
+APP_BUNDLE_DIRECTORY="$OUTPUT_DIRECTORY/OmniEMU.app"
 
 rm -rf "$APP_BUNDLE_DIRECTORY"
 mkdir -p "$APP_BUNDLE_DIRECTORY/Contents"
@@ -15,15 +15,15 @@ mkdir "$APP_BUNDLE_DIRECTORY/Contents/MacOS"
 mkdir "$APP_BUNDLE_DIRECTORY/Contents/Resources"
 
 # Copy executable and nsure executable can be executed
-cp "$PUBLISH_DIRECTORY/Ryujinx" "$APP_BUNDLE_DIRECTORY/Contents/MacOS/Ryujinx"
-chmod u+x "$APP_BUNDLE_DIRECTORY/Contents/MacOS/Ryujinx"
+cp "$PUBLISH_DIRECTORY/OmniEMU" "$APP_BUNDLE_DIRECTORY/Contents/MacOS/OmniEMU"
+chmod u+x "$APP_BUNDLE_DIRECTORY/Contents/MacOS/OmniEMU"
 
 # Then all libraries
 cp "$PUBLISH_DIRECTORY"/*.dylib "$APP_BUNDLE_DIRECTORY/Contents/Frameworks"
 
 # Then resources and mandatory legal/provenance notices.
 cp Info.plist "$APP_BUNDLE_DIRECTORY/Contents"
-cp Ryujinx.icns "$APP_BUNDLE_DIRECTORY/Contents/Resources/Ryujinx.icns"
+cp OmniEMU.icns "$APP_BUNDLE_DIRECTORY/Contents/Resources/OmniEMU.icns"
 cp updater.sh "$APP_BUNDLE_DIRECTORY/Contents/Resources/updater.sh"
 for notice in THIRDPARTY.md LICENSE.txt UPSTREAM.md; do
     if [ -f "$PUBLISH_DIRECTORY/$notice" ]; then
@@ -34,7 +34,7 @@ done
 echo -n "APPL????" > "$APP_BUNDLE_DIRECTORY/Contents/PkgInfo"
 
 # Fixup libraries and executable
-python3 bundle_fix_up.py "$APP_BUNDLE_DIRECTORY" MacOS/Ryujinx
+python3 bundle_fix_up.py "$APP_BUNDLE_DIRECTORY" MacOS/OmniEMU
 
 # Now sign it
 if ! [ -x "$(command -v codesign)" ];

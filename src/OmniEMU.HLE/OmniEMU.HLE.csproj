@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OmniEMU.Audio\OmniEMU.Audio.csproj" />
+    <ProjectReference Include="..\OmniEMU.Common\OmniEMU.Common.csproj" />
+    <ProjectReference Include="..\OmniEMU.Cpu\OmniEMU.Cpu.csproj" />
+    <ProjectReference Include="..\OmniEMU.Graphics.Host1x\OmniEMU.Graphics.Host1x.csproj" />
+    <ProjectReference Include="..\OmniEMU.Graphics.Nvdec\OmniEMU.Graphics.Nvdec.csproj" />
+    <ProjectReference Include="..\OmniEMU.Graphics.Vic\OmniEMU.Graphics.Vic.csproj" />
+    <ProjectReference Include="..\OmniEMU.HLE.Generators\OmniEMU.HLE.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+    <ProjectReference Include="..\OmniEMU.Horizon.Common\OmniEMU.Horizon.Common.csproj" />
+    <ProjectReference Include="..\OmniEMU.Horizon.Kernel.Generators\OmniEMU.Horizon.Kernel.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\OmniEMU.Horizon\OmniEMU.Horizon.csproj" />
+    <ProjectReference Include="..\OmniEMU.Memory\OmniEMU.Memory.csproj" />
+    <ProjectReference Include="..\ARMeilleure\ARMeilleure.csproj" />
+    <ProjectReference Include="..\OmniEMU.Graphics.Gpu\OmniEMU.Graphics.Gpu.csproj" />
+    <ProjectReference Include="..\OmniEMU.Graphics.GAL\OmniEMU.Graphics.GAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LibHac" />
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" />
+    <PackageReference Include="MsgPack.Cli" />
+    <PackageReference Include="SkiaSharp" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" />
+    <PackageReference Include="NetCoreServer" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Homebrew.npdm" />
+    <None Remove="HOS\Applets\SoftwareKeyboard\Resources\Logo_OmniEMU.png" />
+    <None Remove="HOS\Applets\SoftwareKeyboard\Resources\Icon_BtnA.png" />
+    <None Remove="HOS\Applets\SoftwareKeyboard\Resources\Icon_BtnB.png" />
+    <None Remove="HOS\Applets\SoftwareKeyboard\Resources\Icon_KeyF6.png" />
+    <None Remove="HOS\Services\Account\Acc\DefaultUserImage.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Homebrew.npdm" />
+    <EmbeddedResource Include="HOS\Applets\SoftwareKeyboard\Resources\Logo_OmniEMU.png" />
+    <EmbeddedResource Include="HOS\Applets\SoftwareKeyboard\Resources\Icon_BtnA.png" />
+    <EmbeddedResource Include="HOS\Applets\SoftwareKeyboard\Resources\Icon_BtnB.png" />
+    <EmbeddedResource Include="HOS\Applets\SoftwareKeyboard\Resources\Icon_KeyF6.png" />
+    <EmbeddedResource Include="HOS\Services\Account\Acc\DefaultUserImage.jpg" />
+  </ItemGroup>
+
+</Project>

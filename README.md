@@ -37,7 +37,7 @@ dotnet build Ryujinx.sln -c Release
 Run it from source:
 
 ```bash
-dotnet run --project src/Ryujinx/Ryujinx.csproj -c Release
+dotnet run --project src/OmniEMU/OmniEMU.csproj -c Release
 ```
 
 Publish self-contained builds:

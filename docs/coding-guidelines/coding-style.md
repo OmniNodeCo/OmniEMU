@@ -1,6 +1,6 @@
 # C# Coding Style
 
-The general rule we follow is "use Visual Studio defaults". 
+The general rule we follow is "use Visual Studio defaults".
 Using an IDE that supports the `.editorconfig` standard will make this much simpler.
 
 1. We use [Allman style](http://en.wikipedia.org/wiki/Indent_style#Allman_style) braces, where each brace begins on a new line. A single line statement block can go without braces but the block must be properly indented on its own line and must not be nested in other statement blocks that use braces (See rule 18 for more details). One exception is that a `using` statement is permitted to be nested within another `using` statement by starting on the following line at the same indentation level, even if the nested `using` contains a controlled block.
@@ -33,7 +33,7 @@ Using an IDE that supports the `.editorconfig` standard will make this much simp
     - Braces may be omitted only if the body of *every* block associated with an `if`/`else if`/.../`else` compound statement is placed on a single line.
 19. Make all internal and private types static or sealed unless derivation from them is required.  As with any implementation detail, they can be changed if/when derivation is required in the future.
 20. XML docs should be used when writing interfaces or when a class/method is deemed sufficient in scope or complexity.
-21. So-called [Magic Numbers](https://en.wikipedia.org/wiki/Magic_number_(programming)) should be defined as named constants before use (for example `for (int i = 56; i < 68; i++)` could read `for (int i = _currentAge; i < _retireAge; i++)`). 
+21. So-called [Magic Numbers](https://en.wikipedia.org/wiki/Magic_number_(programming)) should be defined as named constants before use (for example `for (int i = 56; i < 68; i++)` could read `for (int i = _currentAge; i < _retireAge; i++)`).
     This may be ignored for trivial or syntactically common statements.
 
 An [EditorConfig](https://editorconfig.org "EditorConfig homepage") file (`.editorconfig`) has been provided at the root of the runtime repository, enabling C# auto-formatting conforming to the above guidelines.
@@ -43,22 +43,22 @@ An [EditorConfig](https://editorconfig.org "EditorConfig homepage") file (`.edit
 ``ShaderCache.cs:``
 
 ```C#
-using Ryujinx.Common.Configuration;
-using Ryujinx.Common.Logging;
-using Ryujinx.Graphics.GAL;
-using Ryujinx.Graphics.Gpu.Engine.Threed;
-using Ryujinx.Graphics.Gpu.Engine.Types;
-using Ryujinx.Graphics.Gpu.Image;
-using Ryujinx.Graphics.Gpu.Memory;
-using Ryujinx.Graphics.Gpu.Shader.DiskCache;
-using Ryujinx.Graphics.Shader;
-using Ryujinx.Graphics.Shader.Translation;
+using OmniEMU.Common.Configuration;
+using OmniEMU.Common.Logging;
+using OmniEMU.Graphics.GAL;
+using OmniEMU.Graphics.Gpu.Engine.Threed;
+using OmniEMU.Graphics.Gpu.Engine.Types;
+using OmniEMU.Graphics.Gpu.Image;
+using OmniEMU.Graphics.Gpu.Memory;
+using OmniEMU.Graphics.Gpu.Shader.DiskCache;
+using OmniEMU.Graphics.Shader;
+using OmniEMU.Graphics.Shader.Translation;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
-namespace Ryujinx.Graphics.Gpu.Shader
+namespace OmniEMU.Graphics.Gpu.Shader
 {
     /// <summary>
     /// Memory cache of shader code.

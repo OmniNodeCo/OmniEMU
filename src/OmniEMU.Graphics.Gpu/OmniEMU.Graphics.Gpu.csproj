@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OmniEMU.Cpu\OmniEMU.Cpu.csproj" />
+    <ProjectReference Include="..\OmniEMU.Graphics.Device\OmniEMU.Graphics.Device.csproj" />
+    <ProjectReference Include="..\OmniEMU.Graphics.GAL\OmniEMU.Graphics.GAL.csproj" />
+    <ProjectReference Include="..\OmniEMU.Common\OmniEMU.Common.csproj" />
+    <ProjectReference Include="..\OmniEMU.Graphics.Texture\OmniEMU.Graphics.Texture.csproj" />
+    <ProjectReference Include="..\OmniEMU.Graphics.Shader\OmniEMU.Graphics.Shader.csproj" />
+  </ItemGroup>
+
+</Project>
