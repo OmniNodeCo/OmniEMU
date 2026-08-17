@@ -21,11 +21,15 @@ chmod u+x "$APP_BUNDLE_DIRECTORY/Contents/MacOS/Ryujinx"
 # Then all libraries
 cp "$PUBLISH_DIRECTORY"/*.dylib "$APP_BUNDLE_DIRECTORY/Contents/Frameworks"
 
-# Then resources
+# Then resources and mandatory legal/provenance notices.
 cp Info.plist "$APP_BUNDLE_DIRECTORY/Contents"
 cp Ryujinx.icns "$APP_BUNDLE_DIRECTORY/Contents/Resources/Ryujinx.icns"
 cp updater.sh "$APP_BUNDLE_DIRECTORY/Contents/Resources/updater.sh"
-cp -r "$PUBLISH_DIRECTORY/THIRDPARTY.md" "$APP_BUNDLE_DIRECTORY/Contents/Resources"
+for notice in THIRDPARTY.md LICENSE.txt UPSTREAM.md; do
+    if [ -f "$PUBLISH_DIRECTORY/$notice" ]; then
+        cp "$PUBLISH_DIRECTORY/$notice" "$APP_BUNDLE_DIRECTORY/Contents/Resources/$notice"
+    fi
+done
 
 echo -n "APPL????" > "$APP_BUNDLE_DIRECTORY/Contents/PkgInfo"
 
