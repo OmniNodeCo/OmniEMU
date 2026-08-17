@@ -102,11 +102,11 @@ jobs:
           echo "Apple Silicon runner verified"
 
       - name: Restore emulator dependencies
-        run: dotnet restore src/Ryujinx/Ryujinx.csproj --runtime ${{ matrix.runtime }}
+        run: dotnet restore src/OmniEMU/OmniEMU.csproj --runtime ${{ matrix.runtime }}
 
       - name: Publish self-contained emulator
         run: >-
-          dotnet publish src/Ryujinx/Ryujinx.csproj
+          dotnet publish src/OmniEMU/OmniEMU.csproj
           --configuration Release
           --runtime ${{ matrix.runtime }}
           --self-contained true
@@ -133,8 +133,8 @@ jobs:
           set -euo pipefail
           root="$PWD"
           sed -i.bak \
-            -e "s/%%RYUJINX_BUILD_VERSION%%/$VERSION/g" \
-            -e "s/%%RYUJINX_BUILD_GIT_HASH%%/${GITHUB_SHA}/g" \
+            -e "s/%%OMNIEMU_BUILD_VERSION%%/$VERSION/g" \
+            -e "s/%%OMNIEMU_BUILD_GIT_HASH%%/${GITHUB_SHA}/g" \
             distribution/macos/Info.plist
           rm distribution/macos/Info.plist.bak
           pushd distribution/macos
@@ -165,7 +165,7 @@ jobs:
           set -euo pipefail
           mkdir -p release-assets
           if [[ "${{ matrix.runtime }}" == "osx-arm64" ]]; then
-            tar -czf "release-assets/omniemu-$VERSION-${{ matrix.artifact }}.tar.gz" -C bundle Ryujinx.app
+            tar -czf "release-assets/omniemu-$VERSION-${{ matrix.artifact }}.tar.gz" -C bundle OmniEMU.app
           else
             tar -czf "release-assets/omniemu-$VERSION-${{ matrix.artifact }}.tar.gz" -C "publish/${{ matrix.artifact }}" .
           fi
