@@ -723,7 +723,7 @@ namespace OmniEMU.Modules
 
         private static string BuildUserAgent()
         {
-            string version = Program.Version ?? "0.1.0";
+            string version = Program.Version ?? "0.1.1";
 
             int plusIndex = version.IndexOf('+');
 

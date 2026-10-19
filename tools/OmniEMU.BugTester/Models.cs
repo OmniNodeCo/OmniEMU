@@ -24,7 +24,7 @@ public sealed record Finding(
 public sealed class DiagnosticReport
 {
     public string Product { get; init; } = "OmniEMU";
-    public string BugTesterVersion { get; init; } = "0.1.0";
+    public string BugTesterVersion { get; init; } = "0.1.1";
     public DateTimeOffset GeneratedAtUtc { get; init; } = DateTimeOffset.UtcNow;
     public string Machine { get; init; } = Environment.MachineName;
     public string OperatingSystem { get; init; } = System.Runtime.InteropServices.RuntimeInformation.OSDescription;

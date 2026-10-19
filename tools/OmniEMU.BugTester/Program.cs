@@ -9,7 +9,7 @@ try
         return 0;
     }
 
-    Console.WriteLine("OmniEMU BugTester 0.1.0");
+    Console.WriteLine("OmniEMU BugTester 0.1.1");
     Console.WriteLine("Created and maintained by OmniNodeCo");
     Console.WriteLine("Running system, setup, configuration, graphics, crash, log, and source diagnostics…");
     Console.WriteLine();

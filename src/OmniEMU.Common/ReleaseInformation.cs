@@ -9,7 +9,7 @@ namespace OmniEMU.Common
     public static class ReleaseInformation
     {
         private const string FlatHubChannelOwner = "flathub";
-        private const string FallbackVersion = "0.1.0";
+        private const string FallbackVersion = "0.1.1";
 
         public const string ReleaseChannelName = "stable";
         public const string ReleaseChannelOwner = "OmniNodeCo";

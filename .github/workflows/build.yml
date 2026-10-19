@@ -60,7 +60,6 @@ jobs:
           --self-contained true
           --no-restore
           --output publish/${{ matrix.artifact }}
-          -p:Version=0.1.${{ github.run_number }}
 
       - name: Include attribution and legal notices
         shell: bash

@@ -58,7 +58,7 @@ public sealed class Options
     public static void PrintHelp()
     {
         Console.WriteLine("""
-OmniEMU BugTester 0.1.0
+OmniEMU BugTester 0.1.1
 
 Usage:
   dotnet run --project tools/OmniEMU.BugTester -- [options]
