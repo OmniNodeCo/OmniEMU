@@ -70,6 +70,11 @@ jobs:
             runtime: win-x64
             artifact: windows-x64
             archive: zip
+          - name: macOS Apple Silicon
+            runner: macos-15
+            runtime: osx-arm64
+            artifact: macos-arm64
+            archive: tar.gz
           - name: Linux x64
             runner: ubuntu-latest
             runtime: linux-x64
@@ -87,6 +92,14 @@ jobs:
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 8.0.x
+
+      - name: Verify Apple Silicon runner
+        if: matrix.runtime == 'osx-arm64'
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = "arm64"
+          echo "Apple Silicon runner verified"
 
       - name: Restore emulator dependencies
         run: dotnet restore src/OmniEMU/OmniEMU.csproj --runtime ${{ matrix.runtime }}
@@ -111,6 +124,26 @@ jobs:
           cp UPSTREAM.md publish/${{ matrix.artifact }}/UPSTREAM.md
           cp distribution/legal/THIRDPARTY.md publish/${{ matrix.artifact }}/THIRDPARTY.md
 
+      - name: Create Apple Silicon application bundle
+        if: matrix.runtime == 'osx-arm64'
+        shell: bash
+        env:
+          VERSION: ${{ needs.metadata.outputs.version }}
+        run: |
+          set -euo pipefail
+          root="$PWD"
+          sed -i.bak \
+            -e "s/%%OMNIEMU_BUILD_VERSION%%/$VERSION/g" \
+            -e "s/%%OMNIEMU_BUILD_GIT_HASH%%/${GITHUB_SHA}/g" \
+            distribution/macos/Info.plist
+          rm distribution/macos/Info.plist.bak
+          pushd distribution/macos
+          ./create_app_bundle.sh \
+            "$root/publish/macos-arm64" \
+            "$root/bundle" \
+            "$root/distribution/macos/entitlements.xml"
+          popd
+
       - name: Package Windows release
         if: matrix.archive == 'zip'
         shell: pwsh
@@ -131,7 +164,11 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p release-assets
-          tar -czf "release-assets/omniemu-$VERSION-${{ matrix.artifact }}.tar.gz" -C "publish/${{ matrix.artifact }}" .
+          if [[ "${{ matrix.runtime }}" == "osx-arm64" ]]; then
+            tar -czf "release-assets/omniemu-$VERSION-${{ matrix.artifact }}.tar.gz" -C bundle OmniEMU.app
+          else
+            tar -czf "release-assets/omniemu-$VERSION-${{ matrix.artifact }}.tar.gz" -C "publish/${{ matrix.artifact }}" .
+          fi
 
       - name: Generate SHA-256 checksum
         shell: bash
@@ -193,7 +230,7 @@ jobs:
               --target "$GITHUB_SHA"
               --title "OmniEMU $RELEASE_VERSION"
               --generate-notes
-              --notes "Native Nintendo Switch emulator builds for Windows x64 and Linux x64. Firmware, keys, and games are not included. Use only files dumped from hardware and software you own."
+              --notes "Native Nintendo Switch emulator builds for Windows x64, Linux x64, and Apple Silicon macOS. Firmware, keys, and games are not included. Use only files dumped from hardware and software you own."
             )
             if [[ "$IS_PRERELEASE" == "true" ]]; then
               flags+=(--prerelease)

@@ -9,16 +9,18 @@ This is the initial engineering triage for OmniEMU 0.1.x. Items are not claims t
 3. **Crash recovery and safe mode** — detect repeated startup crashes and offer launch with default graphics, disabled mods, and a backed-up configuration.
 4. **GPU device-loss recovery** — handle Vulkan device loss and driver resets with a useful report rather than an unexplained exit.
 5. **Configuration migrations** — version configuration schemas and test migrations, including detection of older pre-OmniEMU data directories without moving user data unexpectedly.
-6. **Dependency and upstream refresh** — the imported emulator core must be audited and regularly rebased against maintained, legally compatible upstream fixes.
-7. **Generated nullable warnings** — source-generator output currently emits nullable-context warnings. Add explicit nullable directives in generators and keep CI warning output actionable.
+6. **macOS distribution signing** — release builds are ad-hoc signed. Production distribution should use Developer ID signing and notarization.
+7. **Dependency and upstream refresh** — the imported emulator core must be audited and regularly rebased against maintained, legally compatible upstream fixes.
+8. **Generated nullable warnings** — source-generator output currently emits nullable-context warnings. Add explicit nullable directives in generators and keep CI warning output actionable.
 
 ## Compatibility work
 
 - Maintain a legal homebrew-based smoke-test suite for CPU, GPU, audio, input, filesystem, applets, and Horizon services.
 - Add repeatable game-compatibility reports without distributing games, firmware, keys, or proprietary test content.
-- Test Vulkan and OpenGL on AMD, Intel, NVIDIA, and Mesa.
+- Test Vulkan and OpenGL on AMD, Intel, NVIDIA, Apple Silicon/MoltenVK, and Mesa.
 - Build controller hot-plug, motion, rumble, dead-zone, and multi-controller regression tests.
 - Track shader-cache correctness and stutter across driver updates.
+- Expand ARM64 JIT correctness and performance testing on Apple Silicon.
 - Add save-data backup/restore and corruption detection before writes.
 
 ## Recently shipped
@@ -39,7 +41,7 @@ This is the initial engineering triage for OmniEMU 0.1.x. Items are not claims t
 
 ## Running BugTester
 
-From Linux:
+From Linux or macOS:
 
 ```bash
 ./scripts/bugtest.sh

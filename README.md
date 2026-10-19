@@ -2,7 +2,7 @@
 
 **Created and maintained by [OmniNodeCo](https://github.com/OmniNodeCo).**
 
-OmniEMU is a **real, native Nintendo Switch emulator** for Windows and Linux. It is built from the MIT-licensed Ryujinx emulation architecture and includes a real ARM CPU translator, Horizon OS high-level emulation, Maxwell GPU emulation, Vulkan/OpenGL rendering, audio, controller input, shader caching, and an Avalonia desktop interface.
+OmniEMU is a **real, native Nintendo Switch emulator** for Windows, Linux, and Apple Silicon macOS. It is built from the MIT-licensed Ryujinx emulation architecture and includes a real ARM CPU translator, Horizon OS high-level emulation, Maxwell GPU emulation, Vulkan/OpenGL rendering, audio, controller input, shader caching, and an Avalonia desktop interface.
 
 This repository no longer contains the earlier browser UI prototype.
 
@@ -25,7 +25,7 @@ OmniEMU does **not** include games, encryption keys, firmware, title keys, or Ni
 - .NET 8 SDK or newer
 - 8 GiB RAM minimum
 - Vulkan 1.2+ recommended, or OpenGL 4.5+
-- Windows 10/11 x64 or Linux x64
+- Windows 10/11 x64, Linux x64, or macOS Apple Silicon (`osx-arm64`)
 
 ## Build
 
@@ -50,6 +50,9 @@ dotnet publish src/OmniEMU/OmniEMU.csproj -c Release -r win-x64 --self-contained
 
 # Linux x64
 dotnet publish src/OmniEMU/OmniEMU.csproj -c Release -r linux-x64 --self-contained true -o publish/linux
+
+# Apple Silicon macOS
+dotnet publish src/OmniEMU/OmniEMU.csproj -c Release -r osx-arm64 --self-contained true -o publish/macos-arm64
 ```
 
 ## Game and software downloads
@@ -68,7 +71,7 @@ OmniEMU never includes or links to Nintendo games, firmware, or keys. Catalog en
 OmniEMU includes a cross-platform BugTester that checks the host system, app-data permissions, setup files, configuration JSON, Vulkan availability, crash artifacts, recent error logs, source integrity, project references, versions, workflows, and unresolved merge markers. It creates complete JSON and Markdown reports without reading or copying key, firmware, game, save, or account contents.
 
 ```bash
-# Linux
+# Linux and macOS
 ./scripts/bugtest.sh
 
 # Any platform with .NET 8

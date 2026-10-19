@@ -61,9 +61,11 @@ namespace OmniEMU.Modules
             _buildSize = -1;
 
             // Release asset names are defined by .github/workflows/release.yml.
-            // macOS builds are not published; macOS hosts fall through to the
-            // "updates unavailable" branch below.
-            if (OperatingSystem.IsWindows() && RuntimeInformation.OSArchitecture == Architecture.X64)
+            if (OperatingSystem.IsMacOS() && RuntimeInformation.OSArchitecture == Architecture.Arm64)
+            {
+                _platformExt = "macos-arm64.tar.gz";
+            }
+            else if (OperatingSystem.IsWindows() && RuntimeInformation.OSArchitecture == Architecture.X64)
             {
                 _platformExt = "windows-x64.zip";
             }
