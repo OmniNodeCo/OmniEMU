@@ -15,6 +15,7 @@ namespace OmniEMU.Common.Configuration
         private const string GamesDir = "games";
         private const string ProfilesDir = "profiles";
         private const string KeysDir = "system";
+        private const string DownloadsDir = "downloads";
 
         public enum LaunchMode
         {
@@ -30,6 +31,7 @@ namespace OmniEMU.Common.Configuration
         public static string ProfilesDirPath { get; private set; }
         public static string KeysDirPath { get; private set; }
         public static string KeysDirPathUser { get; }
+        public static string DownloadsDirPath { get; private set; }
 
         public static string LogsDirPath { get; private set; }
 
@@ -227,6 +229,7 @@ namespace OmniEMU.Common.Configuration
             Directory.CreateDirectory(GamesDirPath = Path.Combine(BaseDirPath, GamesDir));
             Directory.CreateDirectory(ProfilesDirPath = Path.Combine(BaseDirPath, ProfilesDir));
             Directory.CreateDirectory(KeysDirPath = Path.Combine(BaseDirPath, KeysDir));
+            Directory.CreateDirectory(DownloadsDirPath = Path.Combine(BaseDirPath, DownloadsDir));
         }
 
         // Check if existing old baseDirPath is a symlink, to prevent possible errors.

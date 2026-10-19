@@ -32,8 +32,8 @@ OmniEMU does **not** include games, encryption keys, firmware, title keys, or Ni
 Restore and build the native desktop app:
 
 ```bash
-dotnet restore Ryujinx.sln
-dotnet build Ryujinx.sln -c Release
+dotnet restore OmniEMU.sln
+dotnet build OmniEMU.sln -c Release
 ```
 
 Run it from source:
@@ -46,14 +46,25 @@ Publish self-contained builds:
 
 ```bash
 # Windows x64
-dotnet publish src/Ryujinx/Ryujinx.csproj -c Release -r win-x64 --self-contained true -o publish/windows
+dotnet publish src/OmniEMU/OmniEMU.csproj -c Release -r win-x64 --self-contained true -o publish/windows
 
 # Linux x64
-dotnet publish src/Ryujinx/Ryujinx.csproj -c Release -r linux-x64 --self-contained true -o publish/linux
+dotnet publish src/OmniEMU/OmniEMU.csproj -c Release -r linux-x64 --self-contained true -o publish/linux
 
 # Apple Silicon macOS
-dotnet publish src/Ryujinx/Ryujinx.csproj -c Release -r osx-arm64 --self-contained true -o publish/macos-arm64
+dotnet publish src/OmniEMU/OmniEMU.csproj -c Release -r osx-arm64 --self-contained true -o publish/macos-arm64
 ```
+
+## Game and software downloads
+
+The desktop app includes a download center (**File → Download Games & Software…**, or the download button on the left rail):
+
+- **Browse homebrew** — a curated catalog of free, legally redistributable Switch homebrew games and apps (Super-Haxagon, OpenLara, Homebrew App Store, NX-Shell, Goldleaf, Checkpoint, Moonlight, nx-hbmenu, MissionControl, and more) resolved from each project's official GitHub releases.
+- **Direct download** — fetch software from any URL you provide, with a rights-confirmation checkbox, file-type validation (`.nro`, `.nsp`, `.xci`, `.nca`, `.nso`, `.zip`, `.7z`, `.jar`, `.ovl`, …), and sanitized file names.
+- **Download queue** — progress, cancel, retry, show-in-folder, and one-click **Launch** for completed homebrew. Zip archives are extracted safely (path-traversal protected), the downloads folder is added to your game library, and the library is rescanned automatically.
+- **Integrity** — when GitHub publishes a SHA-256 digest for a release asset, downloads are verified before they are kept.
+
+OmniEMU never includes or links to Nintendo games, firmware, or keys. Catalog entries point only at official homebrew projects; anything else must come from URLs you have the right to use.
 
 ## Diagnostics and bug reports
 

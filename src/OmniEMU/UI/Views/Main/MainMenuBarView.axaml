@@ -37,6 +37,10 @@
                     Header="{locale:Locale MenuBarFileOpenUnpacked}"
                     IsEnabled="{Binding EnableNonGameRunningControls}"
                     ToolTip.Tip="{locale:Locale LoadApplicationFolderTooltip}" />
+                <MenuItem
+                    Click="OpenDownloads"
+                    Header="Download Games &amp; Software…"
+                    ToolTip.Tip="Browse free homebrew or download software directly from a URL" />
                 <MenuItem Header="{locale:Locale MenuBarFileOpenApplet}" IsEnabled="{Binding IsAppletMenuActive}">
                     <MenuItem
                         Click="OpenMiiApplet"

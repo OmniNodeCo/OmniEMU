@@ -1,0 +1,482 @@
+<window:StyleableWindow
+    x:Class="OmniEMU.Ava.UI.Windows.DownloadsWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:window="clr-namespace:OmniEMU.Ava.UI.Windows"
+    xmlns:viewModels="clr-namespace:OmniEMU.Ava.UI.ViewModels"
+    xmlns:ui="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+    Width="1020"
+    Height="720"
+    MinWidth="840"
+    MinHeight="580"
+    WindowStartupLocation="CenterOwner"
+    x:DataType="viewModels:DownloadsWindowViewModel"
+    mc:Ignorable="d"
+    Title="OmniEMU Downloads"
+    Background="{DynamicResource OmniWindowBrush}">
+    <Design.DataContext>
+        <viewModels:DownloadsWindowViewModel />
+    </Design.DataContext>
+
+    <Window.Styles>
+        <!-- Segmented tab buttons -->
+        <Style Selector="Button.seg-btn">
+            <Setter Property="Padding" Value="16,9" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CornerRadius" Value="11" />
+            <Setter Property="FontSize" Value="13" />
+        </Style>
+        <Style Selector="Button.seg-btn:pointerover">
+            <Setter Property="Background" Value="{DynamicResource OmniSubtleBrush}" />
+        </Style>
+        <Style Selector="Button.seg-btn.active">
+            <Setter Property="Background" Value="{DynamicResource OmniSubtleBrush}" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+
+        <!-- Primary download action -->
+        <Style Selector="Button.dl-primary">
+            <Setter Property="Padding" Value="15,9" />
+            <Setter Property="Background" Value="{DynamicResource ThemeAccentColorBrush}" />
+            <Setter Property="Foreground" Value="#FFFFFF" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+        <Style Selector="Button.dl-primary:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+
+        <!-- Quiet secondary action -->
+        <Style Selector="Button.dl-secondary">
+            <Setter Property="Padding" Value="13,9" />
+            <Setter Property="Background" Value="{DynamicResource OmniSubtleBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource OmniBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+        <Style Selector="Button.dl-secondary:pointerover">
+            <Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentColorBrush}" />
+        </Style>
+
+        <!-- Inline text link button -->
+        <Style Selector="Button.dl-link">
+            <Setter Property="Padding" Value="8,6" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="FontSize" Value="11" />
+        </Style>
+        <Style Selector="Button.dl-link:pointerover">
+            <Setter Property="Background" Value="{DynamicResource OmniSubtleBrush}" />
+        </Style>
+    </Window.Styles>
+
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
+        <!-- Branded header -->
+        <Border
+            Grid.Row="0"
+            Padding="26,20"
+            Background="{DynamicResource OmniHeroBrush}">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <Border
+                    Width="56"
+                    Height="56"
+                    Padding="7"
+                    Background="#18000000"
+                    BorderBrush="#30FFFFFF"
+                    BorderThickness="1"
+                    CornerRadius="16">
+                    <Image Source="resm:OmniEMU.UI.Common.Resources.Logo_OmniEMU.png?assembly=OmniEMU.UI.Common" />
+                </Border>
+                <StackPanel
+                    Grid.Column="1"
+                    Margin="18,0,0,0"
+                    VerticalAlignment="Center"
+                    Spacing="4">
+                    <TextBlock
+                        FontSize="24"
+                        FontWeight="Bold"
+                        Foreground="White"
+                        Text="Game &amp; Software Downloads" />
+                    <TextBlock
+                        FontSize="12"
+                        Foreground="#CCFFFFFF"
+                        TextWrapping="Wrap"
+                        Text="Free homebrew, games and tools from official projects — or pull software directly from any URL you have the right to use." />
+                </StackPanel>
+                <StackPanel
+                    Grid.Column="2"
+                    Orientation="Horizontal"
+                    Spacing="8"
+                    VerticalAlignment="Center">
+                    <Border Padding="11,6" Background="#1835F3CE" BorderBrush="#4035F3CE" BorderThickness="1" CornerRadius="14">
+                        <StackPanel Orientation="Horizontal" Spacing="7">
+                            <Ellipse Width="6" Height="6" VerticalAlignment="Center" Fill="#35F3CE" />
+                            <TextBlock FontSize="9" FontWeight="Bold" Foreground="#35CFAF" Text="HOMEBREW CATALOG" />
+                        </StackPanel>
+                    </Border>
+                    <Button Classes="omni-tool" Click="OpenFolder_Click" ToolTip.Tip="Open the downloads folder">
+                        <ui:SymbolIcon Symbol="OpenFolder" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Segmented navigation -->
+        <Border
+            Grid.Row="1"
+            Padding="26,10"
+            Background="{DynamicResource OmniPanelBrush}"
+            BorderBrush="{DynamicResource OmniBorderBrush}"
+            BorderThickness="0,0,0,1">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Name="BrowseTabButton" Classes="seg-btn active" Click="BrowseTab_Click">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <ui:SymbolIcon Symbol="StarFilled" />
+                        <TextBlock Text="Browse homebrew" />
+                    </StackPanel>
+                </Button>
+                <Button Name="DirectTabButton" Classes="seg-btn" Click="DirectTab_Click">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <ui:SymbolIcon Symbol="Download" />
+                        <TextBlock Text="Direct download" />
+                    </StackPanel>
+                </Button>
+                <Button Name="QueueTabButton" Classes="seg-btn" Click="QueueTab_Click">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <ui:SymbolIcon Symbol="List" />
+                        <TextBlock Text="Download queue" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Border>
+
+        <!-- Body -->
+        <Panel Grid.Row="2">
+
+            <!-- Browse tab -->
+            <Grid
+                IsVisible="{Binding ShowBrowse}"
+                Margin="26,16,26,10"
+                RowDefinitions="Auto,*">
+                <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,14">
+                    <TextBox
+                        Name="SearchBox"
+                        Classes="omni-search"
+                        Watermark="Search homebrew, games and tools…"
+                        Text="{Binding SearchText, Mode=TwoWay}" />
+                    <Button
+                        Grid.Column="1"
+                        Margin="10,0,0,0"
+                        Classes="dl-secondary"
+                        Click="ClearSearch_Click"
+                        Content="Clear" />
+                </Grid>
+
+                <ScrollViewer Grid.Row="1">
+                    <ItemsControl ItemsSource="{Binding VisibleCatalog}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    Width="306"
+                                    Margin="0,0,14,14"
+                                    Padding="16"
+                                    Classes="omni-card">
+                                    <StackPanel Spacing="8">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <TextBlock
+                                                FontSize="15"
+                                                FontWeight="Bold"
+                                                TextWrapping="Wrap"
+                                                Text="{Binding Title}" />
+                                            <Border
+                                                Grid.Column="1"
+                                                Margin="8,0,0,0"
+                                                Padding="8,4"
+                                                VerticalAlignment="Top"
+                                                Classes="brand-chip">
+                                                <TextBlock Text="{Binding Category}" />
+                                            </Border>
+                                        </Grid>
+                                        <TextBlock
+                                            FontSize="11"
+                                            Foreground="{DynamicResource OmniMutedTextBrush}"
+                                            Text="{Binding Author}" />
+                                        <TextBlock
+                                            FontSize="12"
+                                            LineHeight="18"
+                                            TextWrapping="Wrap"
+                                            Text="{Binding Description}" />
+                                        <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,0">
+                                            <TextBlock
+                                                FontSize="10"
+                                                VerticalAlignment="Center"
+                                                Foreground="{DynamicResource OmniMutedTextBrush}"
+                                                Text="{Binding License}" />
+                                            <StackPanel
+                                                Grid.Column="1"
+                                                Orientation="Horizontal"
+                                                Spacing="4">
+                                                <Button
+                                                    Classes="dl-link"
+                                                    Click="Page_Click"
+                                                    Content="Project ↗"
+                                                    ToolTip.Tip="Open the official project page" />
+                                                <Button
+                                                    Classes="dl-primary"
+                                                    Click="DownloadCatalog_Click">
+                                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                                        <ui:SymbolIcon Symbol="Download" />
+                                                        <TextBlock FontSize="12" Text="Get" />
+                                                    </StackPanel>
+                                                </Button>
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+
+            <!-- Direct download tab -->
+            <Grid
+                IsVisible="{Binding ShowDirect}"
+                Margin="26,16,26,10"
+                ColumnDefinitions="1.25*,1*">
+                <StackPanel Spacing="12">
+                    <TextBlock Classes="section-label" Text="DOWNLOAD FROM A URL" />
+                    <TextBox
+                        Name="DirectUrlBox"
+                        Classes="omni-search"
+                        Watermark="https://example.com/homebrew/app.nro" />
+                    <TextBox
+                        Name="DirectNameBox"
+                        Classes="omni-search"
+                        Watermark="File name (auto-detected from the URL when left empty)" />
+                    <CheckBox
+                        Name="RightsCheckBox"
+                        FontSize="13"
+                        Content="I own this software, or it is freely and legally distributed (homebrew, freeware, my own files)." />
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <Button Classes="dl-primary" Click="StartDirect_Click">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <ui:SymbolIcon Symbol="Download" />
+                                <TextBlock Text="Start download" />
+                            </StackPanel>
+                        </Button>
+                        <Button Classes="dl-secondary" Click="OpenFolder_Click">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <ui:SymbolIcon Symbol="OpenFolder" />
+                                <TextBlock Text="Open folder" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <Border Padding="15" Classes="omni-card">
+                        <StackPanel Spacing="7">
+                            <TextBlock Classes="section-label" Text="SUPPORTED FILE TYPES" />
+                            <TextBlock
+                                FontSize="12"
+                                Foreground="{DynamicResource OmniMutedTextBrush}"
+                                TextWrapping="Wrap"
+                                Text=".nro · .nsp · .xci · .nca · .nso · .zip · .7z · .rar · .tar · .gz · .tgz · .jar · .ovl" />
+                            <TextBlock
+                                FontSize="12"
+                                LineHeight="18"
+                                TextWrapping="Wrap"
+                                Text="Zip downloads are extracted automatically into the OmniEMU downloads folder, and that folder is added to your game library so homebrew appears right away." />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <Border
+                    Grid.Column="1"
+                    Margin="18,0,0,0"
+                    Padding="18"
+                    Classes="omni-card">
+                    <StackPanel Spacing="12">
+                        <TextBlock Classes="section-label" Text="DOWNLOAD RESPONSIBLY" />
+                        <StackPanel Spacing="9">
+                            <TextBlock FontSize="12" LineHeight="18" TextWrapping="Wrap" Text="✓  Homebrew apps and games from their official project pages." />
+                            <TextBlock FontSize="12" LineHeight="18" TextWrapping="Wrap" Text="✓  Games you own that you dumped yourself from your own cartridges or eShop purchases." />
+                            <TextBlock FontSize="12" LineHeight="18" TextWrapping="Wrap" Text="✓  Freeware and open-source software that its authors permit you to download." />
+                            <TextBlock FontSize="12" LineHeight="18" TextWrapping="Wrap" Text="✗  Nintendo firmware, encryption keys, or copyrighted games from file-sharing sites." />
+                        </StackPanel>
+                        <Border Padding="13" Background="#14FF6474" BorderBrush="#33FF6474" BorderThickness="1" CornerRadius="10">
+                            <TextBlock
+                                FontSize="11"
+                                LineHeight="16"
+                                TextWrapping="Wrap"
+                                Foreground="{DynamicResource OmniMutedTextBrush}"
+                                Text="OmniEMU never includes or links to Nintendo content. What you download from third-party URLs is your responsibility." />
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Queue tab -->
+            <Grid
+                IsVisible="{Binding ShowQueue}"
+                Margin="26,16,26,10"
+                RowDefinitions="*,Auto">
+                <ScrollViewer>
+                    <StackPanel>
+                        <Border
+                            Margin="0,0,0,12"
+                            Padding="18"
+                            IsVisible="{Binding QueueEmpty}"
+                            Classes="omni-card">
+                            <StackPanel Spacing="6">
+                                <TextBlock FontSize="15" FontWeight="Bold" Text="No downloads yet" />
+                                <TextBlock
+                                    FontSize="12"
+                                    Foreground="{DynamicResource OmniMutedTextBrush}"
+                                    TextWrapping="Wrap"
+                                    Text="Pick a free homebrew title from the Browse tab, or use Direct download to fetch software from a URL you have the right to use." />
+                            </StackPanel>
+                        </Border>
+
+                        <ItemsControl ItemsSource="{Binding Downloads}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Margin="0,0,0,10" Padding="16" Classes="omni-card">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <StackPanel Spacing="6">
+                                                <TextBlock
+                                                    FontSize="14"
+                                                    FontWeight="SemiBold"
+                                                    TextWrapping="Wrap"
+                                                    Text="{Binding Title}" />
+                                                <TextBlock
+                                                    FontSize="11"
+                                                    Foreground="{DynamicResource OmniMutedTextBrush}"
+                                                    TextWrapping="Wrap"
+                                                    Text="{Binding Source}" />
+                                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                                    <ProgressBar
+                                                        Width="300"
+                                                        Height="8"
+                                                        Minimum="0"
+                                                        Maximum="100"
+                                                        Value="{Binding Progress}"
+                                                        IsIndeterminate="{Binding IsProgressIndeterminate}"
+                                                        IsVisible="{Binding IsRunning}" />
+                                                    <TextBlock
+                                                        FontSize="11"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="{DynamicResource OmniMutedTextBrush}"
+                                                        Text="{Binding StatusText}" />
+                                                </StackPanel>
+                                                <TextBlock
+                                                    FontSize="11"
+                                                    Foreground="#E45C5C"
+                                                    TextWrapping="Wrap"
+                                                    IsVisible="{Binding HasError}"
+                                                    Text="{Binding ErrorMessage}" />
+                                            </StackPanel>
+                                            <StackPanel
+                                                Grid.Column="1"
+                                                Margin="14,0,0,0"
+                                                Orientation="Horizontal"
+                                                Spacing="8"
+                                                VerticalAlignment="Center">
+                                                <Button
+                                                    Classes="dl-secondary"
+                                                    Content="Cancel"
+                                                    IsVisible="{Binding CanCancel}"
+                                                    Click="CancelItem_Click" />
+                                                <Button
+                                                    Classes="dl-secondary"
+                                                    Content="Retry"
+                                                    IsVisible="{Binding CanRetry}"
+                                                    Click="RetryItem_Click" />
+                                                <Button
+                                                    Classes="dl-secondary"
+                                                    Content="Show file"
+                                                    IsVisible="{Binding CanOpen}"
+                                                    Click="OpenItem_Click" />
+                                                <Button
+                                                    Classes="dl-primary"
+                                                    Content="Launch"
+                                                    IsVisible="{Binding CanLaunch}"
+                                                    Click="LaunchItem_Click" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <Border
+                    Grid.Row="1"
+                    Margin="0,10,0,0"
+                    Padding="14,10"
+                    Background="{DynamicResource OmniSubtleBrush}"
+                    BorderBrush="{DynamicResource OmniBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="12">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock
+                            FontSize="11"
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource OmniMutedTextBrush}"
+                            TextWrapping="Wrap"
+                            Text="Downloads are saved to the OmniEMU downloads folder. Completed homebrew is rescanned into your game library automatically." />
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                            <Button Classes="dl-secondary" Click="ClearFinished_Click">
+                                <StackPanel Orientation="Horizontal" Spacing="7">
+                                    <ui:SymbolIcon Symbol="Delete" />
+                                    <TextBlock FontSize="12" Text="Clear finished" />
+                                </StackPanel>
+                            </Button>
+                            <Button Classes="dl-secondary" Click="OpenFolder_Click">
+                                <StackPanel Orientation="Horizontal" Spacing="7">
+                                    <ui:SymbolIcon Symbol="OpenFolder" />
+                                    <TextBlock FontSize="12" Text="Open folder" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Panel>
+
+        <!-- Legal footer -->
+        <Border
+            Grid.Row="3"
+            Padding="26,10"
+            Background="{DynamicResource OmniSubtleBrush}"
+            BorderBrush="{DynamicResource OmniBorderBrush}"
+            BorderThickness="0,1,0,0">
+            <Grid ColumnDefinitions="*,Auto">
+                <TextBlock
+                    FontSize="10"
+                    VerticalAlignment="Center"
+                    TextWrapping="Wrap"
+                    Foreground="{DynamicResource OmniMutedTextBrush}"
+                    Text="OmniEMU does not include or link to Nintendo games, firmware or keys. Catalog downloads come from official homebrew projects; other downloads come from URLs you provide." />
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="14,0,0,0"
+                    FontSize="10"
+                    FontWeight="SemiBold"
+                    VerticalAlignment="Center"
+                    Foreground="#6D7CFF"
+                    Text="OMNINODECO" />
+            </Grid>
+        </Border>
+    </Grid>
+</window:StyleableWindow>

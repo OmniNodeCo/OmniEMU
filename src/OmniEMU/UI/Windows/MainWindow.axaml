@@ -105,6 +105,9 @@
                         <Button Classes="rail-button" Command="{Binding OpenFolder}" ToolTip.Tip="Open unpacked game">
                             <ui:SymbolIcon Symbol="OpenFolder" />
                         </Button>
+                        <Button Classes="rail-button" Click="OpenDownloads_Click" ToolTip.Tip="Download homebrew, games and software">
+                            <ui:SymbolIcon Symbol="Download" />
+                        </Button>
                         <Button Classes="rail-button" Command="{Binding ManageProfiles}" ToolTip.Tip="User profiles">
                             <ui:SymbolIcon Symbol="Edit" />
                         </Button>

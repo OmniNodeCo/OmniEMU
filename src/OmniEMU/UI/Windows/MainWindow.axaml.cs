@@ -26,6 +26,8 @@ using OmniEMU.UI.Common.Configuration;
 using OmniEMU.UI.Common.Helper;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
@@ -74,6 +76,10 @@ namespace OmniEMU.Ava.UI.Windows
             InitializeComponent();
             Load();
 
+            // Keep downloaded homebrew visible in the library even if the
+            // downloads window is closed while a download is still running.
+            DownloadManager.ItemCompleted += DownloadManager_ItemCompleted;
+
             UiHandler = new AvaHostUIHandler(this);
 
             ViewModel.Title = $"OmniEMU {Program.Version}";
@@ -109,6 +115,8 @@ namespace OmniEMU.Ava.UI.Windows
 
         protected override void OnClosed(EventArgs e)
         {
+            DownloadManager.ItemCompleted -= DownloadManager_ItemCompleted;
+
             base.OnClosed(e);
             if (PlatformSettings != null)
             {
@@ -520,6 +528,79 @@ namespace OmniEMU.Ava.UI.Windows
             if (Updater.CanUpdate(true))
             {
                 await Updater.BeginParse(this, true);
+            }
+        }
+
+        /// <summary>Window currently showing the game &amp; software download center, if any.</summary>
+        public DownloadsWindow DownloadsWindow { get; private set; }
+
+        public void OpenDownloads()
+        {
+            if (DownloadsWindow != null)
+            {
+                DownloadsWindow.Activate();
+                return;
+            }
+
+            DownloadsWindow = new(this);
+            DownloadsWindow.Closed += (_, _) => DownloadsWindow = null;
+            DownloadsWindow.Show(this);
+        }
+
+        private void OpenDownloads_Click(object sender, RoutedEventArgs e)
+        {
+            OpenDownloads();
+        }
+
+        internal void RequestGameLibraryRescan()
+        {
+            ReloadGameList();
+        }
+
+        /// <summary>
+        /// When a download completes, make sure the downloads folder is part of the
+        /// configured game directories and rescan the library so homebrew shows up.
+        /// </summary>
+        private void DownloadManager_ItemCompleted(DownloadItem item)
+        {
+            if (item.Status != DownloadStatus.Completed)
+            {
+                return;
+            }
+
+            try
+            {
+                List<string> gameDirs = ConfigurationState.Instance.UI.GameDirs.Value;
+                string downloadsDir = DownloadManager.GetDownloadsDirectory();
+
+                if (gameDirs != null && !gameDirs.Any(dir => DownloadPathsEqual(dir, downloadsDir)))
+                {
+                    gameDirs.Add(downloadsDir);
+                    ConfigurationState.Instance.ToFileFormat().SaveConfig(Program.ConfigurationPath);
+                }
+
+                RequestGameLibraryRescan();
+            }
+            catch (Exception ex)
+            {
+                Logger.Warning?.Print(
+                    LogClass.Application,
+                    $"Could not add the downloads folder to the game directories: {ex.Message}");
+            }
+        }
+
+        private static bool DownloadPathsEqual(string first, string second)
+        {
+            try
+            {
+                return string.Equals(
+                    Path.TrimEndingDirectorySeparator(Path.GetFullPath(first)),
+                    Path.TrimEndingDirectorySeparator(Path.GetFullPath(second)),
+                    StringComparison.OrdinalIgnoreCase);
+            }
+            catch
+            {
+                return false;
             }
         }
 

@@ -23,6 +23,10 @@ This is the initial engineering triage for OmniEMU 0.1.x. Items are not claims t
 - Expand ARM64 JIT correctness and performance testing on Apple Silicon.
 - Add save-data backup/restore and corruption detection before writes.
 
+## Recently shipped
+
+- **In-app download center** — `File → Download Games & Software…` with a curated legal homebrew catalog (official GitHub releases only), direct URL downloads with rights confirmation and file-type validation, SHA-256 verification when GitHub publishes asset digests, safe zip extraction, cancel/retry/launch controls, and automatic game-library rescans of the downloads folder.
+
 ## Product features
 
 - In-app diagnostics viewer backed by OmniEMU BugTester reports.

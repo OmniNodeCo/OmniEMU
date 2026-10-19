@@ -267,6 +267,11 @@ namespace OmniEMU.Ava.UI.Views.Main
             await AboutWindow.Show();
         }
 
+        public void OpenDownloads(object sender, RoutedEventArgs e)
+        {
+            Window.OpenDownloads();
+        }
+
         public void CloseWindow(object sender, RoutedEventArgs e)
         {
             Window.Close();
